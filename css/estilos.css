@@ -1,0 +1,228 @@
+:root {
+    --color-primario: #c98fa0;      /* rosa viejo */
+    --color-secundario: #e8c4c4;    /* rosa empolvado claro */
+    --fondo-crema: #faf3ec;
+    --fondo-beige: #f0e4d7;
+    --taupe: #a9917f;
+    --texto-oscuro: #3b2f2f;
+    --borde-suave: #e3d4c9;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--texto-oscuro);
+    background-color: var(--fondo-crema);
+}
+
+h1, h2, h3, .marca {
+    font-family: 'Playfair Display', serif;
+}
+
+/* NAVBAR */
+.navbar-dh {
+    background-color: var(--fondo-beige);
+    border-bottom: 1px solid var(--borde-suave);
+}
+.marca {
+    color: var(--texto-oscuro);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.nav-link {
+    color: var(--texto-oscuro) !important;
+}
+.btn-login {
+    background-color: var(--color-primario);
+    color: #fff;
+    padding: 0.4rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+.btn-login:hover {
+    background-color: var(--taupe);
+    color: #fff;
+}
+
+/* HERO */
+.hero {
+    min-height: 70vh;
+    background: linear-gradient(rgba(59,47,47,0.45), rgba(59,47,47,0.45)),
+                url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200') center/cover no-repeat;
+}
+.hero-titulo {
+    font-size: 2.6rem;
+    margin-bottom: 1rem;
+}
+.hero-subtitulo {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+.btn-explorar {
+    display: inline-block;
+    background-color: var(--color-primario);
+    color: #fff;
+    padding: 0.7rem 1.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+}
+.btn-explorar:hover {
+    background-color: var(--taupe);
+    color: #fff;
+}
+
+/* BUSCADOR */
+.buscador-wrapper {
+    background-color: #fff;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--borde-suave);
+}
+.btn-buscar {
+    background-color: var(--color-primario);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+.btn-buscar:hover {
+    background-color: var(--taupe);
+}
+
+/* TITULOS DE SECCION */
+.titulo-seccion {
+    color: var(--texto-oscuro);
+}
+
+/* TARJETAS PROPIEDADES */
+.tarjeta-propiedad {
+    background-color: #fff;
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.tarjeta-propiedad img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.tarjeta-body {
+    padding: 1.2rem;
+}
+.etiqueta {
+    display: inline-block;
+    background-color: var(--color-secundario);
+    color: var(--texto-oscuro);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+}
+.ciudad, .caracteristicas {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+.precio {
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+.precio span {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--taupe);
+}
+.btn-detalles {
+    display: inline-block;
+    color: var(--color-primario);
+    border: 1px solid var(--color-primario);
+    padding: 0.35rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.btn-detalles:hover {
+    background-color: var(--color-primario);
+    color: #fff;
+}
+
+/* SOBRE NOSOTROS */
+.seccion-nosotros {
+    background-color: var(--fondo-beige);
+}
+.texto-nosotros {
+    max-width: 700px;
+    font-size: 1.05rem;
+}
+
+/* CTA */
+.cta {
+    background-color: var(--color-primario);
+    color: #fff;
+    padding: 3rem 0;
+}
+.btn-cta {
+    display: inline-block;
+    background-color: #fff;
+    color: var(--color-primario);
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+.btn-cta-outline {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+/* FOOTER */
+.footer-dh {
+    background-color: var(--texto-oscuro);
+    color: var(--fondo-crema);
+}
+.footer-dh a {
+    color: var(--fondo-crema);
+    text-decoration: none;
+}
+.lista-footer {
+    list-style: none;
+    padding: 0;
+}
+.footer-dh hr {
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* REGISTRO */
+.seccion-registro {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+}
+.card-registro {
+    background-color: #fff;
+    border: 1px solid var(--borde-suave);
+    border-radius: 10px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+.subtitulo-registro {
+    color: var(--taupe);
+    font-size: 0.95rem;
+}
+.alerta-error {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.9rem;
+}
