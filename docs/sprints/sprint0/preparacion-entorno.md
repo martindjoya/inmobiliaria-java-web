@@ -392,7 +392,62 @@ No se modificó la variable durante esta etapa.
 
 ---
 
-# 14. Pendientes
+# 14. Incidencia de compatibilidad Java/Tomcat
+
+Durante la prueba de `test-conexion.jsp` se presentó el siguiente error HTTP 500:
+
+```text
+java.lang.UnsupportedClassVersionError: conexion/ConexionBD has been compiled by a more recent version of the Java Runtime (class file version 69.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+```
+
+## Causa
+
+La clase `ConexionBD.java` se compiló inicialmente con JDK 25, generando un archivo `.class` con versión 69. Tomcat se ejecuta con Java 8 y solo reconoce archivos `.class` hasta la versión 52.
+
+El problema no estaba relacionado con las credenciales ni con la consulta a la base de datos. Era una incompatibilidad entre la versión utilizada para compilar y la versión utilizada por Tomcat para ejecutar la aplicación.
+
+## Solución aplicada
+
+Se recompiló la clase usando compatibilidad con Java 8:
+
+```powershell
+javac --release 8 -cp WEB-INF\lib\mysql-connector-j-9.7.0.jar -d WEB-INF\classes src\conexion\ConexionBD.java
+```
+
+La verificación del archivo generado confirmó:
+
+```text
+major version: 52
+```
+
+Además, `ConexionBD` quedó configurada para intentar la conexión en este orden:
+
+1. Puerto `3306` con contraseña `1234`.
+2. Puerto `3306` sin contraseña.
+3. Puerto `3307` con contraseña `1234`.
+4. Puerto `3307` sin contraseña.
+
+Esta configuración permite trabajar con la instalación documentada de MariaDB en `localhost:3307` y con el usuario `root` sin contraseña.
+
+## Verificación final
+
+Después de recompilar, fue necesario reiniciar el servicio de Tomcat para descargar la clase incompatible que permanecía en memoria. La prueba final se realizó en:
+
+```text
+http://localhost:8080/DreamHouseSA/test-conexion.jsp
+```
+
+Resultado:
+
+```text
+Conexión exitosa con la base de datos Dream House S.A.
+```
+
+## Prevención
+
+Cada vez que se compile una clase Java para este proyecto, debe utilizarse `--release 8` o un JDK compatible con la versión de Java configurada en Tomcat. Después de reemplazar archivos `.class`, se debe reiniciar o redeplegar la aplicación para que Tomcat cargue la versión nueva.
+
+# 15. Pendientes
 
 Antes de comenzar el desarrollo propiamente dicho quedan por verificar:
 
