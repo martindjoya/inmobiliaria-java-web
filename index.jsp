@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    Object idUsuario = session.getAttribute("idUsuario");
+    String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+    String rolUsuario = (String) session.getAttribute("rolUsuario");
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,9 +28,14 @@
                 <li class="nav-item"><a class="nav-link" href="#propiedades">Propiedades</a></li>
                 <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-                <li class="nav-item">
-                    <a class="btn-login ms-lg-3" href="login.jsp">Iniciar sesión</a>
-                </li>
+                <% if (idUsuario == null) { %>
+                    <li class="nav-item">
+                        <a class="btn-login ms-lg-3" href="login.jsp">Iniciar sesión</a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item"><span class="nav-link">Hola, <%= nombreUsuario %> (<%= rolUsuario %>)</span></li>
+                    <li class="nav-item"><a class="btn-login ms-lg-3" href="logout.jsp">Cerrar sesión</a></li>
+                <% } %>
             </ul>
         </div>
     </nav>
