@@ -14,8 +14,12 @@
     String contrasena = request.getParameter("contrasena");
     String confirmarContrasena = request.getParameter("confirmarContrasena");
 
+    if (email != null) email = email.trim().toLowerCase();
+    if (telefono != null) telefono = telefono.trim();
+
     String error = null;
     Pattern patronEmail = Pattern.compile("^[\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,}$");
+    Pattern patronTelefono = Pattern.compile("^[0-9+() -]{7,20}$");
 
     if (nombre == null || nombre.trim().isEmpty()
             || email == null || email.trim().isEmpty()
@@ -23,6 +27,8 @@
         error = "Todos los campos obligatorios deben estar completos.";
     } else if (!patronEmail.matcher(email).matches()) {
         error = "El correo electrónico no tiene un formato válido.";
+    } else if (telefono != null && !telefono.isEmpty() && !patronTelefono.matcher(telefono).matches()) {
+        error = "El teléfono no tiene un formato válido.";
     } else if (contrasena.length() < 6) {
         error = "La contraseña debe tener al menos 6 caracteres.";
     } else if (!contrasena.equals(confirmarContrasena)) {

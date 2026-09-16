@@ -40,7 +40,9 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Teléfono</label>
-                        <input type="text" class="form-control" name="telefono"
+                           <input type="tel" class="form-control" name="telefono"
+                               pattern="[0-9+() -]{7,20}"
+                               title="Ingresa un teléfono válido de 7 a 20 caracteres."
                                value="<%= request.getAttribute("telefonoValor") != null ? request.getAttribute("telefonoValor") : "" %>">
                     </div>
                     <div class="mb-3">
@@ -55,6 +57,11 @@
                     <div class="mb-4">
                         <label class="form-label">Confirmar contraseña</label>
                         <input type="password" class="form-control" name="confirmarContrasena" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Rol asignado</label>
+                        <input type="text" class="form-control" value="Cliente" readonly>
+                        <small class="text-muted">Las cuentas nuevas se registran como Cliente.</small>
                     </div>
                     <button type="submit" class="btn-explorar w-100">Registrarme</button>
                 </form>

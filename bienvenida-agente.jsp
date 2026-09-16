@@ -19,6 +19,7 @@
         <div class="container text-center">
             <h2 class="titulo-seccion mb-3">Hola, <%= session.getAttribute("nombreUsuario") %></h2>
             <p class="subtitulo-registro mb-4">Panel de la inmobiliaria/agente en Dream House S.A.</p>
+            <p>Rol: <strong><%= session.getAttribute("rolUsuario") %></strong></p>
             <a href="index.jsp" class="btn-explorar me-2">Ir al inicio</a>
             <a href="logout.jsp" class="btn-explorar">Cerrar sesión</a>
         </div>
