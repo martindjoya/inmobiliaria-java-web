@@ -28,15 +28,31 @@ Este enfoque se ajustó a la guía del parcial y a la disponibilidad real del ti
 - Se revisó la estructura base del proyecto.
 - Se validó la conexión a la base de datos mediante JDBC.
 - Se identificó la existencia de la base `dream_house` y el esquema de usuarios/roles.
-- Se definió el alcance del Sprint 1 como MVP de autenticación.
-- Se documentó una planificación realista para 2 horas.
+- Se implementó el registro de usuarios con validación de campos, correo duplicado y contraseña cifrada.
+- Se implementó el inicio de sesión con validación de credenciales y cuenta activa.
+- Se implementó la redirección por rol hacia las bienvenidas de administrador, agente y cliente.
+- Se implementó el cierre de sesión mediante invalidación de la sesión y redirección al login.
+- Se protegieron las páginas de bienvenida contra usuarios no autenticados o con un rol incorrecto.
+- Se añadió el fallback de conexión para los puertos `3306` y `3307`, y para `root` con contraseña `1234` o vacía.
+- Se corrigió la compatibilidad del bytecode con Tomcat recompilando para Java 8.
 
 ### Criterios cumplidos
 
-- La base del sistema de acceso quedó definida con claridad.
-- La arquitectura funcional quedó orientada a roles.
-- Se estableció una ruta de trabajo para registro, login y bienvenida por perfil.
-- Se contextualizó el sprint con la guía del parcial y con la realidad del proyecto.
+- Un usuario puede registrarse correctamente y queda asociado al rol `Cliente`.
+- Las credenciales válidas permiten iniciar sesión.
+- Las credenciales inválidas producen mensajes de error.
+- La aplicación redirige al usuario según su rol.
+- Las páginas protegidas rechazan el acceso sin sesión o con un rol no autorizado.
+- El usuario puede cerrar sesión desde las pantallas de bienvenida.
+- La conexión JDBC funciona con la configuración activa de MariaDB.
+
+### Pruebas realizadas
+
+- `test-conexion.jsp`: conexión exitosa con la base de datos.
+- `logout.jsp`: respuesta HTTP `302` hacia `login.jsp`.
+- `login.jsp`: respuesta HTTP `200`.
+- `bienvenida-cliente.jsp` sin sesión: respuesta HTTP `302` hacia `login.jsp`.
+- Compilación de `ConexionBD.java` con `javac --release 8` y bytecode `major version: 52`.
 
 ---
 
@@ -65,6 +81,8 @@ Sin embargo, no se puede presentar como una entrega completa del parcial, porque
 
 ## 6. Conclusión del review
 
-El Sprint 1 se considera exitoso como base de autenticación y acceso del sistema, pero no como solución final del parcial. La entrega responde a una estrategia de MVP y deja preparado el proyecto para continuar con las siguientes funcionalidades inmobiliarias.
+El Sprint 1 se considera terminado como MVP de autenticación y acceso. La entrega cubre registro, login, roles, protección de páginas y cierre de sesión, y deja el proyecto preparado para continuar con las funcionalidades inmobiliarias.
+
+No se considera terminado el proyecto integral del parcial, porque las propiedades, citas, solicitudes, favoritos, reportes y la seguridad avanzada pertenecen a los siguientes sprints o están fuera del alcance actual.
 
 La recomendación es mantener esta línea para no sobreestimar el alcance y para evitar presentar una solución que no esté respaldada por la funcionalidad real implementada.
