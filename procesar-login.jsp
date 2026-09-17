@@ -4,7 +4,7 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="conexion.ConexionBD" %>
-<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
+<%@ page import="seguridad.HashContrasenas" %>
 <%
     String email = request.getParameter("email");
     String contrasena = request.getParameter("contrasena");
@@ -36,7 +36,7 @@
 
                 if (!activo) {
                     error = "Esta cuenta se encuentra inactiva.";
-                } else if (!BCrypt.checkpw(contrasena, hashGuardado)) {
+                } else if (!HashContrasenas.coincide(contrasena, hashGuardado)) {
                     error = "Correo o contraseña incorrectos.";
                 } else {
                     // Buscar el rol del usuario

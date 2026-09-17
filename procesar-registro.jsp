@@ -5,7 +5,7 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="conexion.ConexionBD" %>
-<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
+<%@ page import="seguridad.HashContrasenas" %>
 <%
     String nombre = request.getParameter("nombre");
     String email = request.getParameter("email");
@@ -54,7 +54,7 @@
             if (error == null) {
                 con.setAutoCommit(false);
 
-                String contrasenaHasheada = BCrypt.hashpw(contrasena, BCrypt.gensalt());
+                String contrasenaHasheada = HashContrasenas.generar(contrasena);
 
                 // Insertar usuario
                 PreparedStatement psUsuario = con.prepareStatement(
