@@ -199,3 +199,17 @@ El script no reemplaza datos existentes y debe ejecutarse solo en un entorno de 
 | Filtro `operacion=venta` | 2 propiedades |
 | Filtro `operacion=alquiler` | 1 propiedad |
 | Filtro por ciudad Bucaramanga | 1 propiedad |
+
+## 10. Limpieza de redundancias en la interfaz
+
+Se revisaron las pantallas de bienvenida de Cliente, Inmobiliaria y Administrador. Se eliminaron accesos repetidos que llevaban al mismo panel o duplicaban acciones ya disponibles en las tarjetas de cada rol.
+
+Cambios aplicados:
+
+- Cliente: se mantuvo el acceso a propiedades y se conservaron los accesos unicos a favoritos, citas y perfil.
+- Inmobiliaria: se conservaron los accesos unicos a propiedades, citas y solicitudes, eliminando los botones repetidos de panel y publicacion.
+- Administrador: se conservaron las tarjetas de usuarios, propiedades, catalogos y auditoria, eliminando el boton adicional que repetia el panel administrativo.
+
+La limpieza solo afecta la presentacion y la navegacion visible; no elimina funcionalidades ni modifica permisos.
+
+Prueba realizada: la bienvenida de Inmobiliaria respondio HTTP 200 y los accesos duplicados dejaron de aparecer en el HTML renderizado.

@@ -13,7 +13,6 @@
                 <h1 class="titulo-seccion display-5 mt-3 mb-3">Bienvenido, <%= session.getAttribute("nombreUsuario") %></h1>
                 <p class="subtitulo-registro fs-5 mb-4">Encuentra un lugar que se sienta como hogar y lleva el control de todo desde un mismo espacio.</p>
                 <div class="d-flex flex-wrap gap-2">
-                    <a href="<%= request.getContextPath() %>/cliente/inicio.jsp" class="btn-explorar">Ir a mi panel</a>
                     <a href="<%= request.getContextPath() %>/propiedades.jsp" class="btn-detalles">Explorar propiedades</a>
                 </div>
             </div>

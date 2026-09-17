@@ -43,10 +43,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="text-center mt-5">
-            <a href="<%= request.getContextPath() %>/admin/inicio.jsp" class="btn-explorar">Abrir panel administrativo</a>
-        </div>
     </div>
 </section>
 

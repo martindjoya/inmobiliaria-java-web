@@ -12,10 +12,6 @@
                 <span class="etiqueta">Espacio para inmobiliarias</span>
                 <h1 class="titulo-seccion display-5 mt-3 mb-3">Bienvenido, <%= session.getAttribute("nombreUsuario") %></h1>
                 <p class="subtitulo-registro fs-5 mb-4">Publica propiedades, organiza tus citas y atiende las solicitudes de tus clientes.</p>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="<%= request.getContextPath() %>/inmobiliaria/inicio.jsp" class="btn-explorar">Ir a mi panel</a>
-                    <a href="<%= request.getContextPath() %>/inmobiliaria/guardar-propiedad.jsp" class="btn-detalles">Publicar propiedad</a>
-                </div>
             </div>
             <div class="col-lg-4">
                 <div class="card-registro">
