@@ -143,3 +143,31 @@ Continuan pendientes para cumplir integralmente la guia del parcial:
 ## 7. Conclusion
 
 El trabajo de hoy resolvio bloqueos de configuracion y ejecucion que afectaban la prueba de la aplicacion. La conexion JDBC, las clases Java, las JSP compartidas y el catalogo publico quedaron disponibles para continuar el desarrollo del Sprint 2 con una base verificable.
+
+## 8. Incremento posterior: buscador de propiedades
+
+Se completo el primer incremento funcional del Sprint 2 sobre el catalogo publico. El formulario de busqueda de `propiedades.jsp` ahora consulta y aplica filtros reales mediante `PreparedStatement`.
+
+Filtros implementados:
+
+- ciudad;
+- tipo de propiedad;
+- operacion de venta o alquiler;
+- precio minimo;
+- precio maximo;
+- caracteristica asociada mediante la relacion `propiedad_caracteristica`.
+
+El formulario conserva los valores seleccionados, permite limpiar los filtros y muestra un estado vacio cuando la combinacion no encuentra propiedades.
+
+### Pruebas del incremento
+
+Se probaron estas solicitudes en Tomcat:
+
+| Escenario | Resultado |
+|---|---|
+| Catalogo sin filtros | HTTP 200 |
+| Filtro por operacion | HTTP 200 |
+| Filtro por rango de precio | HTTP 200 |
+| Filtros sin coincidencias | HTTP 200, estado vacio |
+
+No se generaron errores nuevos de compilacion JSP ni de consulta SQL durante estas pruebas.
