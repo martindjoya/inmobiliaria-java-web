@@ -1,0 +1,16 @@
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%
+    HttpSession sesionSeguridad = request.getSession(false);
+    Object idUsuarioSesion = (sesionSeguridad != null) ? sesionSeguridad.getAttribute("idUsuario") : null;
+    Object rolSesionActual = (sesionSeguridad != null) ? sesionSeguridad.getAttribute("rolUsuario") : null;
+
+    if (idUsuarioSesion == null) {
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        return;
+    }
+
+    if (rolRequerido != null && !rolRequerido.equalsIgnoreCase(String.valueOf(rolSesionActual))) {
+        response.sendRedirect(request.getContextPath() + "/login.jsp?error=acceso");
+        return;
+    }
+%>

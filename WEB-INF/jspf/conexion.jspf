@@ -1,0 +1,18 @@
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.SQLException" %>
+<%!
+    // Centraliza la conexion JDBC a la base de datos dream_house (MySQL de XAMPP)
+    private static final String URL_BD = "jdbc:mysql://localhost:3306/dream_house?useSSL=false&serverTimezone=America/Bogota&characterEncoding=UTF-8";
+    private static final String USUARIO_BD = "root";
+    private static final String CLAVE_BD = "1234"; 
+
+    public Connection obtenerConexion() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("No se encontro el driver de MySQL. Verifica que mysql-connector-j-9.7.0.jar esté en WEB-INF/lib", e);
+        }
+        return DriverManager.getConnection(URL_BD, USUARIO_BD, CLAVE_BD);
+    }
+%>

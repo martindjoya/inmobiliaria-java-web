@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class ConexionBD {
 
-    private static final String URL_PUERTO_PRINCIPAL = "jdbc:mysql://localhost:3306/dream_house?useSSL=false&serverTimezone=UTC";
-    private static final String URL_PUERTO_ALTERNATIVO = "jdbc:mysql://localhost:3307/dream_house?useSSL=false&serverTimezone=UTC";
+    private static final String URL_PUERTO_PRINCIPAL = "jdbc:mysql://localhost:3306/dream_house?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    private static final String URL_PUERTO_ALTERNATIVO = "jdbc:mysql://localhost:3307/dream_house?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USUARIO = "root";
-    private static final String[] CONTRASENAS = { "1234", "" };
+    private static final String[] CONTRASENAS = { "" };
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

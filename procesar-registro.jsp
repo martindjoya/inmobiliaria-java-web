@@ -82,9 +82,15 @@
                 psPerfil.executeUpdate();
                 psPerfil.close();
 
-                // Buscar el id del rol "Cliente"
+                // Asegurar que exista el rol "Cliente" para cualquier cuenta nueva
+                PreparedStatement psCrearRol = con.prepareStatement(
+                    "INSERT IGNORE INTO rol (nombre) VALUES (?)");
+                psCrearRol.setString(1, "Cliente");
+                psCrearRol.executeUpdate();
+                psCrearRol.close();
+
                 PreparedStatement psRol = con.prepareStatement(
-                    "SELECT id_rol FROM rol WHERE nombre = ?");
+                    "SELECT id_rol FROM rol WHERE LOWER(nombre) = LOWER(?) LIMIT 1");
                 psRol.setString(1, "Cliente");
                 ResultSet rsRol = psRol.executeQuery();
                 int idRol = -1;
@@ -95,7 +101,7 @@
                 psRol.close();
 
                 if (idRol == -1) {
-                    throw new SQLException("No existe el rol 'Cliente' en la base de datos. Debe insertarse primero en la tabla rol.");
+                    throw new SQLException("No se pudo obtener el rol 'Cliente'.");
                 }
 
                 // Insertar usuario_rol

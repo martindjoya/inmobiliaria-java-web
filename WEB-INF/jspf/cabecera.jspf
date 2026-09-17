@@ -1,0 +1,39 @@
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%
+    HttpSession sesionActual = request.getSession(false);
+    String nombreUsuarioSesion = (sesionActual != null) ? (String) sesionActual.getAttribute("nombreUsuario") : null;
+    String contextoApp = request.getContextPath();
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream House S.A.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%= contextoApp %>/css/estilos.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dh">
+    <div class="container">
+        <a class="navbar-brand marca" href="<%= contextoApp %>/index.jsp">Dream House S.A.</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navDH">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navDH">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                <li class="nav-item"><a class="nav-link" href="<%= contextoApp %>/index.jsp">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="<%= contextoApp %>/propiedades.jsp">Propiedades</a></li>
+                <% if (nombreUsuarioSesion == null) { %>
+                    <li class="nav-item"><a class="nav-link" href="<%= contextoApp %>/registro.jsp">Registrarse</a></li>
+                    <li class="nav-item"><a class="btn-login" href="<%= contextoApp %>/login.jsp">Iniciar sesión</a></li>
+                <% } else { %>
+                    <li class="nav-item"><span class="nav-link">Hola, <%= nombreUsuarioSesion %></span></li>
+                    <li class="nav-item"><a class="btn-login" href="<%= contextoApp %>/logout.jsp">Cerrar sesion</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

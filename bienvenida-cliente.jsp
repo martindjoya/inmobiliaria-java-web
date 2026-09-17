@@ -1,28 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
-    if (session.getAttribute("idUsuario") == null || !"Cliente".equals(session.getAttribute("rolUsuario"))) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
+    String rolRequerido = "Cliente";
 %>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Bienvenido - Dream House S.A.</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/estilos.css">
-</head>
-<body>
-    <section class="seccion-registro py-5">
-        <div class="container text-center">
-            <h2 class="titulo-seccion mb-3">Hola, <%= session.getAttribute("nombreUsuario") %></h2>
-            <p class="subtitulo-registro mb-4">Bienvenido a tu cuenta de cliente en Dream House S.A.</p>
-            <p>Rol: <strong><%= session.getAttribute("rolUsuario") %></strong></p>
-            <a href="index.jsp" class="btn-explorar me-2">Ir al inicio</a>
-            <a href="logout.jsp" class="btn-explorar">Cerrar sesión</a>
+<%@ include file="/WEB-INF/jspf/seguridad.jspf" %>
+<%@ include file="/WEB-INF/jspf/cabecera.jspf" %>
+
+<section class="seccion-registro py-5">
+    <div class="container">
+        <div class="row justify-content-center align-items-center g-5">
+            <div class="col-lg-7">
+                <span class="etiqueta">Tu espacio en Dream House</span>
+                <h1 class="titulo-seccion display-5 mt-3 mb-3">Bienvenido, <%= session.getAttribute("nombreUsuario") %></h1>
+                <p class="subtitulo-registro fs-5 mb-4">Encuentra un lugar que se sienta como hogar y lleva el control de todo desde un mismo espacio.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="<%= request.getContextPath() %>/cliente/inicio.jsp" class="btn-explorar">Ir a mi panel</a>
+                    <a href="<%= request.getContextPath() %>/propiedades.jsp" class="btn-detalles">Explorar propiedades</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card-registro">
+                    <h2 class="h4 mb-3">Todo listo para comenzar</h2>
+                    <p class="subtitulo-registro mb-4">Guarda tus propiedades favoritas, agenda visitas y revisa tus solicitudes.</p>
+                    <a href="<%= request.getContextPath() %>/cliente/favoritos.jsp" class="btn-detalles d-block text-center mb-2">Mis favoritos</a>
+                    <a href="<%= request.getContextPath() %>/cliente/mis-citas.jsp" class="btn-detalles d-block text-center mb-2">Mis citas</a>
+                    <a href="<%= request.getContextPath() %>/cliente/perfil.jsp" class="btn-detalles d-block text-center">Mi perfil</a>
+                </div>
+            </div>
         </div>
-    </section>
-</body>
-</html>
+    </div>
+</section>
+
+<%@ include file="/WEB-INF/jspf/pie.jspf" %>

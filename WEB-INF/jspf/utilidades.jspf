@@ -1,0 +1,35 @@
+<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
+<%!
+    // Genera el hash seguro de una contraseña en texto plano
+    public String generarHashContrasena(String contrasenaPlana) {
+        return BCrypt.hashpw(contrasenaPlana, BCrypt.gensalt(12));
+    }
+
+    // Compara una contraseña en texto plano contra el hash almacenado en la BD
+    public boolean verificarContrasena(String contrasenaPlana, String hashAlmacenado) {
+        try {
+            return BCrypt.checkpw(contrasenaPlana, hashAlmacenado);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Validación simple de formato de correo
+    public boolean esCorreoValido(String correo) {
+        if (correo == null) return false;
+        return correo.matches("^[\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,}$");
+    }
+    <%!
+    // Devuelve el id_inmobiliaria asociado a un usuario, o null si el usuario aún no tiene perfil de inmobiliaria creado
+    public Integer obtenerIdInmobiliaria(java.sql.Connection conn, int idUsuario) throws java.sql.SQLException {
+        java.sql.PreparedStatement ps = conn.prepareStatement(
+            "SELECT id_inmobiliaria FROM inmobiliaria WHERE id_usuario = ?");
+        ps.setInt(1, idUsuario);
+        java.sql.ResultSet rs = ps.executeQuery();
+        Integer resultado = rs.next() ? rs.getInt("id_inmobiliaria") : null;
+        rs.close();
+        ps.close();
+        return resultado;
+    }
+%>
+%>
