@@ -7,7 +7,7 @@ El Sprint 2 dejo disponible una base funcional del flujo inmobiliario: catalogo 
 El Sprint 3 sera el sprint de cierre funcional y validacion final. Su objetivo es convertir los flujos parciales en una entrega demostrable, corregir los riesgos que pueden producir datos invalidos o accesos indebidos y completar la documentacion exigida por el proyecto.
 
 **Fecha de inicio:** 2026-09-17  
-**Jornadas de trabajo planificadas:** 10:00 a 12:00 y 13:00 a 14:00 (180 minutos en total)  
+**Jornada de trabajo planificada:** 10:00 a 12:00 (120 minutos en total)  
 **Producto:** Dream House S.A.
 
 ## 2. Objetivo del sprint
@@ -126,7 +126,7 @@ Como equipo, queremos ejecutar una matriz de pruebas reproducible para comprobar
 
 ## 6. Plan de trabajo de la jornada
 
-Las jornadas suman 180 minutos. La primera sesion protege la operacion funcional P0; la segunda completa la cobertura documental y tecnica necesaria para aspirar al 100% del parcial. Los cambios que requieran mas tiempo deben quedar registrados como riesgo, no ocultarse como terminados.
+La jornada suma 120 minutos. Se protege la operacion funcional P0 y se deja registrada la cobertura documental y tecnica restante como trabajo posterior. Los cambios que requieran mas tiempo deben quedar registrados como riesgo, no ocultarse como terminados.
 
 | Hora | Actividad | Resultado esperado |
 |---|---|---|
@@ -138,23 +138,12 @@ Las jornadas suman 180 minutos. La primera sesion protege la operacion funcional
 | 11:40-11:55 | Ejecutar regresion rapida | Flujos de Visitante, Cliente, Inmobiliaria y Administrador revisados |
 | 11:55-12:00 | Registrar resultados y pendientes | Evidencia de pruebas y tareas P1/P2 documentadas |
 
-**Pausa de 12:00 a 13:00.**
-
-| Hora | Actividad | Resultado esperado |
-|---|---|---|
-| 13:00-13:10 | Revisar matriz de requisitos del parcial | Cada requisito tiene archivo, prueba o evidencia asociada |
-| 13:10-13:25 | Verificar seguridad tecnica | Filtro de servlet, control de sesion, roles y acceso denegado comprobados |
-| 13:25-13:40 | Verificar modelo y restricciones | Relaciones 1:1, 1:N y N:M, tres `UNIQUE`, matricula y DDL/DML revisados |
-| 13:40-13:50 | Verificar consultas y pruebas | Cinco consultas obligatorias, pruebas unitarias y datos demo identificados |
-| 13:50-14:00 | Cierre documental y evidencia | MER, modelo relacional, diccionario, casos de uso, tablero, Git y pendientes listos |
-
 ### Criterio de priorizacion durante la jornada
 
 1. Resolver primero cualquier bloqueo de conexion, compilacion o autenticacion.
 2. Completar solo cambios necesarios para las historias HU-301, HU-302 y HU-303.
 3. Detener la incorporacion de funcionalidades nuevas a las 11:40 para reservar tiempo a la regresion.
-4. Usar la sesion de 13:00 a 14:00 para cerrar requisitos tecnicos, documentales y de evidencia, no para iniciar funcionalidades nuevas.
-5. Registrar como pendiente cualquier tarea que no pueda validarse antes de las 14:00.
+4. Registrar como pendiente cualquier tarea que no pueda validarse antes de las 12:00.
 
 ## 7. Matriz de cobertura del parcial
 
