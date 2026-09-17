@@ -7,14 +7,14 @@ output_path = r"c:\xampp\tomcat\webapps\inmobiliaria-java-web\docs\sprints\sprin
 
 styles = getSampleStyleSheet()
 styles.add(ParagraphStyle(name='TitleCentered', parent=styles['Title'], alignment=1, fontSize=22, leading=26, textColor=colors.HexColor('#0F3A5B')))
-styles.add(ParagraphStyle(name='Heading2', parent=styles['Heading2'], fontSize=14, textColor=colors.HexColor('#0F3A5B'), leading=18, spaceBefore=10, spaceAfter=8))
-styles.add(ParagraphStyle(name='Body', parent=styles['BodyText'], fontSize=10, leading=14, spaceAfter=8, textColor=colors.HexColor('#1F1F1F')))
+styles.add(ParagraphStyle(name='SectionHeading', parent=styles['Heading2'], fontSize=14, textColor=colors.HexColor('#0F3A5B'), leading=18, spaceBefore=10, spaceAfter=8))
+styles.add(ParagraphStyle(name='BodyCopy', parent=styles['BodyText'], fontSize=10, leading=14, spaceAfter=8, textColor=colors.HexColor('#1F1F1F')))
 styles.add(ParagraphStyle(name='Small', parent=styles['BodyText'], fontSize=9, leading=12, textColor=colors.HexColor('#444444')))
 
 content = []
-content.append(Paragraph('Dream House S.A.', style='TitleCentered'))
-content.append(Paragraph('Guion de sustentación - Sprint 3', style='Heading2'))
-content.append(Paragraph('Proyecto: Aplicación web para gestión inmobiliaria', style='Small'))
+content.append(Paragraph('Dream House S.A.', styles['TitleCentered']))
+content.append(Paragraph('Guion de sustentación - Sprint 3', styles['SectionHeading']))
+content.append(Paragraph('Proyecto: Aplicación web para gestión inmobiliaria', styles['Small']))
 content.append(Spacer(1, 14))
 
 sections = [
@@ -29,22 +29,22 @@ sections = [
 ]
 
 for title, text in sections:
-    content.append(Paragraph(title, style='Heading2'))
-    content.append(Paragraph(text, style='Body'))
+    content.append(Paragraph(title, styles['SectionHeading']))
+    content.append(Paragraph(text, styles['BodyCopy']))
 
 content.append(Spacer(1, 10))
-content.append(Paragraph('Puntos clave para resumir en la sustentación', style='Heading2'))
+content.append(Paragraph('Puntos clave para resumir en la sustentación', styles['SectionHeading']))
 content.append(ListFlowable([
-    ListItem(Paragraph('Se protegieron rutas privadas por rol y por propietario.', style='Body')),
-    ListItem(Paragraph('Las transiciones de estado en citas y solicitudes no permiten regresiones.', style='Body')),
-    ListItem(Paragraph('La matrícula inmobiliaria es única y se valida en alta y edición.', style='Body')),
-    ListItem(Paragraph('Los documentos reales se almacenan en WEB-INF/uploads y se validan por pertenencia.', style='Body')),
-    ListItem(Paragraph('La auditoría registra cambios reales y los reportes se calculan desde la base de datos.', style='Body')),
-], bulletType='bullet', leftIndent=20, style=styles['Body']))
+    ListItem(Paragraph('Se protegieron rutas privadas por rol y por propietario.', styles['BodyCopy'])),
+    ListItem(Paragraph('Las transiciones de estado en citas y solicitudes no permiten regresiones.', styles['BodyCopy'])),
+    ListItem(Paragraph('La matrícula inmobiliaria es única y se valida en alta y edición.', styles['BodyCopy'])),
+    ListItem(Paragraph('Los documentos reales se almacenan en WEB-INF/uploads y se validan por pertenencia.', styles['BodyCopy'])),
+    ListItem(Paragraph('La auditoría registra cambios reales y los reportes se calculan desde la base de datos.', styles['BodyCopy'])),
+], bulletType='bullet', leftIndent=20))
 
 content.append(Spacer(1, 12))
-content.append(Paragraph('Cierre sugerido', style='Heading2'))
-content.append(Paragraph('La aplicación quedó entregada con validaciones funcionales, seguridad por servidor, documentación técnica y evidencia de pruebas. La sustentación debe mostrar que el alumno puede explicar el flujo, la base de datos y la lógica de control de acceso con lenguaje claro y preciso.', style='Body'))
+content.append(Paragraph('Cierre sugerido', styles['SectionHeading']))
+content.append(Paragraph('La aplicación quedó entregada con validaciones funcionales, seguridad por servidor, documentación técnica y evidencia de pruebas. La sustentación debe mostrar que el alumno puede explicar el flujo, la base de datos y la lógica de control de acceso con lenguaje claro y preciso.', styles['BodyCopy']))
 
 doc = SimpleDocTemplate(output_path, pagesize=A4, rightMargin=36, leftMargin=36, topMargin=30, bottomMargin=30)
 doc.build(content)
