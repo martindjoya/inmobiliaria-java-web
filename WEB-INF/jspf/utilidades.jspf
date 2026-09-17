@@ -29,4 +29,16 @@
         ps.close();
         return resultado;
     }
+
+    public void registrarAuditoria(java.sql.Connection conn, int idUsuario, String accion,
+            String tablaAfectada, String detalle) throws java.sql.SQLException {
+        java.sql.PreparedStatement ps = conn.prepareStatement(
+            "INSERT INTO auditoria (id_usuario, accion, tabla_afectada, detalle) VALUES (?, ?, ?, ?)");
+        ps.setInt(1, idUsuario);
+        ps.setString(2, accion);
+        ps.setString(3, tablaAfectada);
+        ps.setString(4, detalle);
+        ps.executeUpdate();
+        ps.close();
+    }
 %>

@@ -10,6 +10,10 @@
 <%
     int idUsuarioSolInm = (Integer) session.getAttribute("idUsuario");
     java.util.List<String> estadosSolValidos = Arrays.asList("pendiente", "en_revision", "aprobada", "rechazada");
+    String mensajeExitoSol = "actualizado".equals(request.getParameter("mensaje"))
+        ? "Los cambios de la solicitud fueron realizados correctamente." : null;
+    String mensajeErrorSol = "transicion-invalida".equals(request.getParameter("error"))
+        ? "La solicitud no puede regresar a un estado anterior ni cambiar después de finalizar." : null;
 
     Connection conSolInm = null;
     try {
@@ -24,18 +28,41 @@
         if ("cambiarEstado".equals(request.getParameter("accion")) && "POST".equalsIgnoreCase(request.getMethod())) {
             String idSolCambio = request.getParameter("id_solicitud");
             String nuevoEstadoSol = request.getParameter("nuevo_estado");
+            int solicitudesActualizadas = 0;
             if (idSolCambio != null && estadosSolValidos.contains(nuevoEstadoSol)) {
-                PreparedStatement psCambiarSol = conSolInm.prepareStatement(
-                    "UPDATE solicitud s JOIN propiedad p ON s.id_propiedad = p.id_propiedad " +
-                    "SET s.estado = ? WHERE s.id_solicitud = ? AND p.id_inmobiliaria = ?");
-                psCambiarSol.setString(1, nuevoEstadoSol);
-                psCambiarSol.setInt(2, Integer.parseInt(idSolCambio));
-                psCambiarSol.setInt(3, idInmobiliariaSol);
-                psCambiarSol.executeUpdate();
-                psCambiarSol.close();
+                PreparedStatement psEstadoSol = conSolInm.prepareStatement(
+                    "SELECT s.estado FROM solicitud s JOIN propiedad p ON s.id_propiedad = p.id_propiedad " +
+                    "WHERE s.id_solicitud = ? AND p.id_inmobiliaria = ?");
+                psEstadoSol.setInt(1, Integer.parseInt(idSolCambio));
+                psEstadoSol.setInt(2, idInmobiliariaSol);
+                ResultSet rsEstadoSol = psEstadoSol.executeQuery();
+                String estadoActualSolCambio = rsEstadoSol.next() ? rsEstadoSol.getString("estado") : null;
+                rsEstadoSol.close();
+                psEstadoSol.close();
+
+                boolean transicionSolValida = ("pendiente".equals(estadoActualSolCambio)
+                    && "en_revision".equals(nuevoEstadoSol))
+                    || ("en_revision".equals(estadoActualSolCambio)
+                    && ("aprobada".equals(nuevoEstadoSol) || "rechazada".equals(nuevoEstadoSol)));
+
+                if (transicionSolValida) {
+                    PreparedStatement psCambiarSol = conSolInm.prepareStatement(
+                        "UPDATE solicitud s JOIN propiedad p ON s.id_propiedad = p.id_propiedad " +
+                        "SET s.estado = ? WHERE s.id_solicitud = ? AND p.id_inmobiliaria = ?");
+                    psCambiarSol.setString(1, nuevoEstadoSol);
+                    psCambiarSol.setInt(2, Integer.parseInt(idSolCambio));
+                    psCambiarSol.setInt(3, idInmobiliariaSol);
+                    solicitudesActualizadas = psCambiarSol.executeUpdate();
+                    psCambiarSol.close();
+                    if (solicitudesActualizadas > 0) {
+                        registrarAuditoria(conSolInm, idUsuarioSolInm, "CAMBIAR_ESTADO_SOLICITUD",
+                            "solicitud", "Solicitud " + idSolCambio + " actualizada a estado " + nuevoEstadoSol);
+                    }
+                }
             }
             conSolInm.close();
-            response.sendRedirect(request.getContextPath() + "/inmobiliaria/solicitudes.jsp");
+            String mensajeSolicitud = (solicitudesActualizadas > 0) ? "?mensaje=actualizado" : "?error=transicion-invalida";
+            response.sendRedirect(request.getContextPath() + "/inmobiliaria/solicitudes.jsp" + mensajeSolicitud);
             return;
         }
 
@@ -50,6 +77,12 @@
 
 <div class="container py-5">
     <h2 class="titulo-seccion mb-4">Solicitudes de mis propiedades</h2>
+<% if (mensajeExitoSol != null) { %>
+    <div class="alert alert-success"><%= mensajeExitoSol %></div>
+<% } %>
+<% if (mensajeErrorSol != null) { %>
+    <div class="alert alert-danger"><%= mensajeErrorSol %></div>
+<% } %>
     <table class="table table-bordered bg-white">
         <thead>
             <tr><th>Propiedad</th><th>Cliente</th><th>Tipo</th><th>Fecha</th><th>Estado</th><th>Documentos</th></tr>
@@ -81,9 +114,14 @@
                     <form method="post" action="<%= request.getContextPath() %>/inmobiliaria/solicitudes.jsp" class="d-flex gap-1">
                         <input type="hidden" name="accion" value="cambiarEstado">
                         <input type="hidden" name="id_solicitud" value="<%= idSolFila %>">
-                        <select name="nuevo_estado" class="form-select form-select-sm">
+                        <select name="nuevo_estado" class="form-select form-select-sm" <%= ("aprobada".equals(estadoActualSol) || "rechazada".equals(estadoActualSol)) ? "disabled" : "" %>>
 <%
             for (String estOpcionSol : estadosSolValidos) {
+                boolean opcionSolPermitida = estOpcionSol.equals(estadoActualSol)
+                    || ("pendiente".equals(estadoActualSol) && "en_revision".equals(estOpcionSol))
+                    || ("en_revision".equals(estadoActualSol)
+                        && ("aprobada".equals(estOpcionSol) || "rechazada".equals(estOpcionSol)));
+                if (!opcionSolPermitida) continue;
                 String selSol = estOpcionSol.equals(estadoActualSol) ? "selected" : "";
 %>
                             <option value="<%= estOpcionSol %>" <%= selSol %>><%= estOpcionSol %></option>
