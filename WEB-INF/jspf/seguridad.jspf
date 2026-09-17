@@ -9,7 +9,7 @@
         return;
     }
 
-    if (rolRequerido != null && !rolRequerido.equals(rolSesionActual)) {
+    if (rolRequerido != null && !rolRequerido.equalsIgnoreCase(String.valueOf(rolSesionActual))) {
         response.sendRedirect(request.getContextPath() + "/login.jsp?error=acceso");
         return;
     }
