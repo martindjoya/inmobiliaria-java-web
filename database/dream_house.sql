@@ -15,6 +15,9 @@ CREATE TABLE rol (
     nombre VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
+INSERT IGNORE INTO rol (nombre)
+VALUES ('Cliente'), ('Inmobiliaria'), ('Administrador');
+
 -- USUARIOS
 CREATE TABLE usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
