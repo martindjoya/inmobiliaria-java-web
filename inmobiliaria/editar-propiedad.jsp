@@ -57,33 +57,51 @@
 
             if (tituloEdit == null || tituloEdit.trim().isEmpty()
                 || precioEdit == null || precioEdit.trim().isEmpty()
+                || (!"venta".equals(operacionEdit) && !"alquiler".equals(operacionEdit))
+                || (!"disponible".equals(estadoEdit) && !"reservada".equals(estadoEdit)
+                    && !"vendida".equals(estadoEdit) && !"alquilada".equals(estadoEdit))
                 || idCiudadEdit == null || idCiudadEdit.isEmpty()
                 || idTipoEdit == null || idTipoEdit.isEmpty()) {
                 mensajeErrorEditarProp = "Completa los campos obligatorios.";
             } else {
-                PreparedStatement psActualizarProp = conEditarProp.prepareStatement(
-                    "UPDATE propiedad SET titulo=?, descripcion=?, precio=?, operacion=?, habitaciones=?, banos=?, area_m2=?, estado=?, id_ciudad=?, id_tipo=? " +
-                    "WHERE id_propiedad=? AND id_inmobiliaria=?");
-                psActualizarProp.setString(1, tituloEdit.trim());
-                psActualizarProp.setString(2, descripcionEdit);
-                psActualizarProp.setDouble(3, Double.parseDouble(precioEdit));
-                psActualizarProp.setString(4, operacionEdit);
-                psActualizarProp.setInt(5, (habitacionesEdit == null || habitacionesEdit.isEmpty()) ? 0 : Integer.parseInt(habitacionesEdit));
-                psActualizarProp.setInt(6, (banosEdit == null || banosEdit.isEmpty()) ? 0 : Integer.parseInt(banosEdit));
-                if (areaEdit == null || areaEdit.trim().isEmpty()) {
-                    psActualizarProp.setNull(7, Types.DECIMAL);
-                } else {
-                    psActualizarProp.setDouble(7, Double.parseDouble(areaEdit));
+                try {
+                    double precioValidadoEdit = Double.parseDouble(precioEdit);
+                    int habitacionesValidadasEdit = (habitacionesEdit == null || habitacionesEdit.isEmpty()) ? 0 : Integer.parseInt(habitacionesEdit);
+                    int banosValidadosEdit = (banosEdit == null || banosEdit.isEmpty()) ? 0 : Integer.parseInt(banosEdit);
+                    double areaValidadaEdit = (areaEdit == null || areaEdit.trim().isEmpty()) ? 0 : Double.parseDouble(areaEdit);
+
+                    if (!Double.isFinite(precioValidadoEdit) || precioValidadoEdit <= 0
+                        || habitacionesValidadasEdit < 0 || banosValidadosEdit < 0
+                        || !Double.isFinite(areaValidadaEdit) || areaValidadaEdit < 0) {
+                        mensajeErrorEditarProp = "El precio debe ser mayor que cero y las cantidades no pueden ser negativas.";
+                    } else {
+                        PreparedStatement psActualizarProp = conEditarProp.prepareStatement(
+                            "UPDATE propiedad SET titulo=?, descripcion=?, precio=?, operacion=?, habitaciones=?, banos=?, area_m2=?, estado=?, id_ciudad=?, id_tipo=? " +
+                            "WHERE id_propiedad=? AND id_inmobiliaria=?");
+                        psActualizarProp.setString(1, tituloEdit.trim());
+                        psActualizarProp.setString(2, descripcionEdit);
+                        psActualizarProp.setDouble(3, precioValidadoEdit);
+                        psActualizarProp.setString(4, operacionEdit);
+                        psActualizarProp.setInt(5, habitacionesValidadasEdit);
+                        psActualizarProp.setInt(6, banosValidadosEdit);
+                        if (areaEdit == null || areaEdit.trim().isEmpty()) {
+                            psActualizarProp.setNull(7, Types.DECIMAL);
+                        } else {
+                            psActualizarProp.setDouble(7, areaValidadaEdit);
+                        }
+                        psActualizarProp.setString(8, estadoEdit);
+                        psActualizarProp.setInt(9, Integer.parseInt(idCiudadEdit));
+                        psActualizarProp.setInt(10, Integer.parseInt(idTipoEdit));
+                        psActualizarProp.setInt(11, idPropiedadEditar);
+                        psActualizarProp.setInt(12, idInmobiliariaEditar);
+                        psActualizarProp.executeUpdate();
+                        psActualizarProp.close();
+                        response.sendRedirect(request.getContextPath() + "/inmobiliaria/propiedades.jsp");
+                        return;
+                    }
+                } catch (NumberFormatException exNumerosEditarProp) {
+                    mensajeErrorEditarProp = "Precio, habitaciones, baños y área deben tener valores numéricos válidos.";
                 }
-                psActualizarProp.setString(8, estadoEdit);
-                psActualizarProp.setInt(9, Integer.parseInt(idCiudadEdit));
-                psActualizarProp.setInt(10, Integer.parseInt(idTipoEdit));
-                psActualizarProp.setInt(11, idPropiedadEditar);
-                psActualizarProp.setInt(12, idInmobiliariaEditar);
-                psActualizarProp.executeUpdate();
-                psActualizarProp.close();
-                response.sendRedirect(request.getContextPath() + "/inmobiliaria/propiedades.jsp");
-                return;
             }
         }
     } catch (Exception exEditarProp) {

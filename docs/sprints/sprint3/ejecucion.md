@@ -26,7 +26,7 @@ Completar el Sprint 3 por incrementos pequeños, verificables y separados en com
 |---|---|---|---|---|
 | 0 | Registro de ejecución del sprint | P0 | Completada | `docs: iniciar ejecucion sprint 3` |
 | 1 | Filtro de servlet y acceso denegado | P0 | En validación | `feat: proteger rutas privadas con filtro` |
-| 2 | Validaciones de propiedad y baja lógica | P0 | Pendiente | `feat: validar gestion de propiedades` |
+| 2 | Validaciones de propiedad y baja lógica | P0 | En validación | `feat: validar gestion de propiedades` |
 | 3 | Validaciones de citas | P0 | Pendiente | `feat: validar agenda de citas` |
 | 4 | Validaciones de solicitudes | P0 | Pendiente | `feat: validar solicitudes de clientes` |
 | 5 | Documentos con control de pertenencia | P1 | Pendiente | `feat: controlar documentos de solicitudes` |
@@ -83,3 +83,4 @@ Será el siguiente incremento funcional. Se revisará primero el descriptor de d
 |---|---|---|---|
 | 0. Inicio de ejecución | Bitácora validada | Completada | `96244c1` |
 | 1. Filtro de servlet | `javac --release 8` y validación de `web.xml` | Completada técnicamente | Pendiente de commit |
+| 2. Validaciones de propiedades | Validación estática de alta y edición; Tomcat respondió `404` en las rutas de prueba | Completada técnicamente, pendiente de prueba HTTP | Pendiente de commit |

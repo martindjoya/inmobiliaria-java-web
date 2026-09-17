@@ -40,27 +40,42 @@
                 || idTipoNvo == null || idTipoNvo.isEmpty()) {
                 mensajeErrorGuardarProp = "Completa los campos obligatorios: título, precio, operación, ciudad y tipo.";
             } else {
-                PreparedStatement psInsertarProp = conGuardarProp.prepareStatement(
-                    "INSERT INTO propiedad (titulo, descripcion, precio, operacion, habitaciones, banos, area_m2, estado, id_ciudad, id_tipo, id_inmobiliaria) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, 'disponible', ?, ?, ?)");
-                psInsertarProp.setString(1, tituloNvo.trim());
-                psInsertarProp.setString(2, descripcionNva);
-                psInsertarProp.setDouble(3, Double.parseDouble(precioNvo));
-                psInsertarProp.setString(4, operacionNva);
-                psInsertarProp.setInt(5, (habitacionesNvo == null || habitacionesNvo.isEmpty()) ? 0 : Integer.parseInt(habitacionesNvo));
-                psInsertarProp.setInt(6, (banosNvo == null || banosNvo.isEmpty()) ? 0 : Integer.parseInt(banosNvo));
-                if (areaNva == null || areaNva.trim().isEmpty()) {
-                    psInsertarProp.setNull(7, Types.DECIMAL);
-                } else {
-                    psInsertarProp.setDouble(7, Double.parseDouble(areaNva));
+                try {
+                    double precioValidado = Double.parseDouble(precioNvo);
+                    int habitacionesValidadas = (habitacionesNvo == null || habitacionesNvo.isEmpty()) ? 0 : Integer.parseInt(habitacionesNvo);
+                    int banosValidados = (banosNvo == null || banosNvo.isEmpty()) ? 0 : Integer.parseInt(banosNvo);
+                    double areaValidada = (areaNva == null || areaNva.trim().isEmpty()) ? 0 : Double.parseDouble(areaNva);
+
+                    if (!Double.isFinite(precioValidado) || precioValidado <= 0
+                        || habitacionesValidadas < 0 || banosValidados < 0
+                        || !Double.isFinite(areaValidada) || areaValidada < 0) {
+                        mensajeErrorGuardarProp = "El precio debe ser mayor que cero y las cantidades no pueden ser negativas.";
+                    } else {
+                        PreparedStatement psInsertarProp = conGuardarProp.prepareStatement(
+                            "INSERT INTO propiedad (titulo, descripcion, precio, operacion, habitaciones, banos, area_m2, estado, id_ciudad, id_tipo, id_inmobiliaria) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, 'disponible', ?, ?, ?)");
+                        psInsertarProp.setString(1, tituloNvo.trim());
+                        psInsertarProp.setString(2, descripcionNva);
+                        psInsertarProp.setDouble(3, precioValidado);
+                        psInsertarProp.setString(4, operacionNva);
+                        psInsertarProp.setInt(5, habitacionesValidadas);
+                        psInsertarProp.setInt(6, banosValidados);
+                        if (areaNva == null || areaNva.trim().isEmpty()) {
+                            psInsertarProp.setNull(7, Types.DECIMAL);
+                        } else {
+                            psInsertarProp.setDouble(7, areaValidada);
+                        }
+                        psInsertarProp.setInt(8, Integer.parseInt(idCiudadNva));
+                        psInsertarProp.setInt(9, Integer.parseInt(idTipoNvo));
+                        psInsertarProp.setInt(10, idInmobiliariaGuardar);
+                        psInsertarProp.executeUpdate();
+                        psInsertarProp.close();
+                        response.sendRedirect(request.getContextPath() + "/inmobiliaria/propiedades.jsp");
+                        return;
+                    }
+                } catch (NumberFormatException exNumerosProp) {
+                    mensajeErrorGuardarProp = "Precio, habitaciones, baños y área deben tener valores numéricos válidos.";
                 }
-                psInsertarProp.setInt(8, Integer.parseInt(idCiudadNva));
-                psInsertarProp.setInt(9, Integer.parseInt(idTipoNvo));
-                psInsertarProp.setInt(10, idInmobiliariaGuardar);
-                psInsertarProp.executeUpdate();
-                psInsertarProp.close();
-                response.sendRedirect(request.getContextPath() + "/inmobiliaria/propiedades.jsp");
-                return;
             }
         }
     } catch (Exception exGuardarProp) {
