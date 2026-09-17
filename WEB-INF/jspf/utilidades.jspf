@@ -1,14 +1,13 @@
-<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
 <%!
     // Genera el hash seguro de una contraseña en texto plano
     public String generarHashContrasena(String contrasenaPlana) {
-        return BCrypt.hashpw(contrasenaPlana, BCrypt.gensalt(12));
+        return seguridad.HashContrasenas.generar(contrasenaPlana);
     }
 
     // Compara una contraseña en texto plano contra el hash almacenado en la BD
     public boolean verificarContrasena(String contrasenaPlana, String hashAlmacenado) {
         try {
-            return BCrypt.checkpw(contrasenaPlana, hashAlmacenado);
+            return seguridad.HashContrasenas.coincide(contrasenaPlana, hashAlmacenado);
         } catch (Exception e) {
             return false;
         }
@@ -19,7 +18,6 @@
         if (correo == null) return false;
         return correo.matches("^[\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,}$");
     }
-    <%!
     // Devuelve el id_inmobiliaria asociado a un usuario, o null si el usuario aún no tiene perfil de inmobiliaria creado
     public Integer obtenerIdInmobiliaria(java.sql.Connection conn, int idUsuario) throws java.sql.SQLException {
         java.sql.PreparedStatement ps = conn.prepareStatement(
@@ -31,5 +29,4 @@
         ps.close();
         return resultado;
     }
-%>
 %>
