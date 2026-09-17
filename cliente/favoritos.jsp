@@ -63,7 +63,7 @@
                     <h5><%= rsFavoritos.getString("titulo") %></h5>
                     <p class="ciudad">📍 <%= rsFavoritos.getString("nombre_ciudad") %></p>
                     <p class="precio">$<%= String.format("%,.0f", rsFavoritos.getDouble("precio")) %> <span>COP</span></p>
-                    <a href="<%= request.getContextPath() %>/detalle-propiedad.jsp?id=<%= rsFavoritos.getInt("id_propiedad") %>" class="btn-detalles">Ver detalles</a>
+                    <a href="<%= request.getContextPath() %>/propiedades.jsp?id=<%= rsFavoritos.getInt("id_propiedad") %>" class="btn-detalles">Ver detalles</a>
                     <form method="post" action="<%= request.getContextPath() %>/cliente/favoritos.jsp" class="d-inline">
                         <input type="hidden" name="accion" value="quitar">
                         <input type="hidden" name="id_propiedad" value="<%= rsFavoritos.getInt("id_propiedad") %>">

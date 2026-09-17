@@ -67,7 +67,7 @@
         } else if ("INMOBILIARIA".equalsIgnoreCase(rolPrincipal)) {
             response.sendRedirect(contextoApp + "/inmobiliaria/inicio.jsp");
         } else {
-            response.sendRedirect(contextoApp + "/cliente/inicio.jsp");
+            response.sendRedirect(contextoApp + "/index.jsp");
         }
 
     } catch (Exception exAcceso) {

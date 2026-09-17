@@ -226,6 +226,29 @@ Validaciones realizadas:
 | Cita con propiedad recibida | HTTP 200 y propiedad preseleccionada |
 | Solicitud con propiedad recibida | HTTP 200 y propiedad preseleccionada |
 
+## 12. Reorganizacion del flujo de Cliente
+
+Se elimino la duplicacion de busqueda entre las pantallas publicas y el panel:
+
+- `index.jsp` es ahora el unico punto de busqueda y muestra resultados filtrados desde la base de datos.
+- `propiedades.jsp` es la ficha de detalle de una propiedad y concentra las interacciones de Cliente.
+- `cliente/panel.jsp` es el panel de seguimiento y muestra favoritos, citas pendientes y solicitudes pendientes.
+- `cliente/inicio.jsp` se conserva como redireccion de compatibilidad hacia `cliente/panel.jsp`.
+- `detalle-propiedad.jsp` se conserva como redireccion de compatibilidad hacia `propiedades.jsp?id=...`.
+
+Las tarjetas de resultados en `index.jsp` enlazan directamente a la ficha en `propiedades.jsp`. Se eliminaron del index las tarjetas ficticias y el buscador visual anterior.
+
+Pruebas realizadas:
+
+| Escenario | Resultado |
+|---|---|
+| Busqueda en `index.jsp?operacion=venta` | HTTP 200, 2 resultados demo |
+| Ficha `propiedades.jsp?id=1` | HTTP 200 |
+| Ficha autenticada como Cliente | Acciones de favorito, cita y solicitud visibles |
+| Panel `cliente/panel.jsp` | HTTP 200, sin formulario de busqueda |
+| URL antigua de detalle | Redireccion final a `propiedades.jsp` |
+| URL antigua de inicio Cliente | Redireccion final a `login.jsp` sin sesion |
+
 ## 10. Limpieza de redundancias en la interfaz
 
 Se revisaron las pantallas de bienvenida de Cliente, Inmobiliaria y Administrador. Se eliminaron accesos repetidos que llevaban al mismo panel o duplicaban acciones ya disponibles en las tarjetas de cada rol.
