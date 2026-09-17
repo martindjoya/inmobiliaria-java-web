@@ -171,3 +171,31 @@ Se probaron estas solicitudes en Tomcat:
 | Filtros sin coincidencias | HTTP 200, estado vacio |
 
 No se generaron errores nuevos de compilacion JSP ni de consulta SQL durante estas pruebas.
+
+## 9. Datos demo para pruebas manuales
+
+Se agrego el script `database/querys/datos-prueba-sprint2.sql`. El script es idempotente para los registros demo principales y permite preparar el entorno local con:
+
+- un usuario con rol `Inmobiliaria`;
+- una inmobiliaria demo;
+- tres ciudades;
+- tres tipos de propiedad;
+- cuatro caracteristicas;
+- tres propiedades disponibles;
+- tres imagenes principales.
+
+Credenciales del usuario demo:
+
+- Correo: `agente.demo@dreamhouse.local`
+- Contrasena: `Prueba123!`
+
+El script no reemplaza datos existentes y debe ejecutarse solo en un entorno de pruebas.
+
+### Pruebas realizadas con datos demo
+
+| Escenario | Resultado |
+|---|---|
+| Catalogo completo | 3 propiedades |
+| Filtro `operacion=venta` | 2 propiedades |
+| Filtro `operacion=alquiler` | 1 propiedad |
+| Filtro por ciudad Bucaramanga | 1 propiedad |
