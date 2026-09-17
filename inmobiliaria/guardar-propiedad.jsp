@@ -24,6 +24,7 @@
 
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             String tituloNvo = request.getParameter("titulo");
+            String matriculaNva = request.getParameter("matricula_inmobiliaria");
             String descripcionNva = request.getParameter("descripcion");
             String precioNvo = request.getParameter("precio");
             String operacionNva = request.getParameter("operacion");
@@ -34,6 +35,7 @@
             String idTipoNvo = request.getParameter("id_tipo");
 
             if (tituloNvo == null || tituloNvo.trim().isEmpty()
+                || matriculaNva == null || matriculaNva.trim().isEmpty()
                 || precioNvo == null || precioNvo.trim().isEmpty()
                 || (!"venta".equals(operacionNva) && !"alquiler".equals(operacionNva))
                 || idCiudadNva == null || idCiudadNva.isEmpty()
@@ -52,22 +54,23 @@
                         mensajeErrorGuardarProp = "El precio debe ser mayor que cero y las cantidades no pueden ser negativas.";
                     } else {
                         PreparedStatement psInsertarProp = conGuardarProp.prepareStatement(
-                            "INSERT INTO propiedad (titulo, descripcion, precio, operacion, habitaciones, banos, area_m2, estado, id_ciudad, id_tipo, id_inmobiliaria) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, 'disponible', ?, ?, ?)");
-                        psInsertarProp.setString(1, tituloNvo.trim());
-                        psInsertarProp.setString(2, descripcionNva);
-                        psInsertarProp.setDouble(3, precioValidado);
-                        psInsertarProp.setString(4, operacionNva);
-                        psInsertarProp.setInt(5, habitacionesValidadas);
-                        psInsertarProp.setInt(6, banosValidados);
+                            "INSERT INTO propiedad (matricula_inmobiliaria, titulo, descripcion, precio, operacion, habitaciones, banos, area_m2, estado, id_ciudad, id_tipo, id_inmobiliaria) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'disponible', ?, ?, ?)");
+                        psInsertarProp.setString(1, matriculaNva.trim());
+                        psInsertarProp.setString(2, tituloNvo.trim());
+                        psInsertarProp.setString(3, descripcionNva);
+                        psInsertarProp.setDouble(4, precioValidado);
+                        psInsertarProp.setString(5, operacionNva);
+                        psInsertarProp.setInt(6, habitacionesValidadas);
+                        psInsertarProp.setInt(7, banosValidados);
                         if (areaNva == null || areaNva.trim().isEmpty()) {
-                            psInsertarProp.setNull(7, Types.DECIMAL);
+                            psInsertarProp.setNull(8, Types.DECIMAL);
                         } else {
-                            psInsertarProp.setDouble(7, areaValidada);
+                            psInsertarProp.setDouble(8, areaValidada);
                         }
-                        psInsertarProp.setInt(8, Integer.parseInt(idCiudadNva));
-                        psInsertarProp.setInt(9, Integer.parseInt(idTipoNvo));
-                        psInsertarProp.setInt(10, idInmobiliariaGuardar);
+                        psInsertarProp.setInt(9, Integer.parseInt(idCiudadNva));
+                        psInsertarProp.setInt(10, Integer.parseInt(idTipoNvo));
+                        psInsertarProp.setInt(11, idInmobiliariaGuardar);
                         psInsertarProp.executeUpdate();
                         psInsertarProp.close();
                         response.sendRedirect(request.getContextPath() + "/inmobiliaria/propiedades.jsp");
@@ -78,6 +81,8 @@
                 }
             }
         }
+    } catch (SQLIntegrityConstraintViolationException exDuplicadoProp) {
+        mensajeErrorGuardarProp = "La matrícula inmobiliaria ya está registrada.";
     } catch (Exception exGuardarProp) {
         mensajeErrorGuardarProp = "Ocurrió un problema al guardar la propiedad. Verifica los valores numéricos.";
     }
@@ -94,6 +99,10 @@
     }
 %>
     <form method="post" action="<%= request.getContextPath() %>/inmobiliaria/guardar-propiedad.jsp" class="card-registro">
+        <div class="mb-3">
+            <label class="form-label">Matrícula inmobiliaria</label>
+            <input type="text" name="matricula_inmobiliaria" class="form-control" maxlength="50" required>
+        </div>
         <div class="mb-3">
             <label class="form-label">Título</label>
             <input type="text" name="titulo" class="form-control" required>

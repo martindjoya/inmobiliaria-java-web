@@ -75,6 +75,7 @@ CREATE TABLE tipo_propiedad (
 -- PROPIEDAD
 CREATE TABLE propiedad (
     id_propiedad INT AUTO_INCREMENT PRIMARY KEY,
+    matricula_inmobiliaria VARCHAR(50) NOT NULL UNIQUE,
     titulo VARCHAR(150) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(14,2) NOT NULL,

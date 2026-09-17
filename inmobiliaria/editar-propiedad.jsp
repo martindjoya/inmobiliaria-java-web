@@ -45,6 +45,7 @@
 
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             String tituloEdit = request.getParameter("titulo");
+            String matriculaEdit = request.getParameter("matricula_inmobiliaria");
             String descripcionEdit = request.getParameter("descripcion");
             String precioEdit = request.getParameter("precio");
             String operacionEdit = request.getParameter("operacion");
@@ -56,6 +57,7 @@
             String idTipoEdit = request.getParameter("id_tipo");
 
             if (tituloEdit == null || tituloEdit.trim().isEmpty()
+                || matriculaEdit == null || matriculaEdit.trim().isEmpty()
                 || precioEdit == null || precioEdit.trim().isEmpty()
                 || (!"venta".equals(operacionEdit) && !"alquiler".equals(operacionEdit))
                 || (!"disponible".equals(estadoEdit) && !"reservada".equals(estadoEdit)
@@ -76,24 +78,25 @@
                         mensajeErrorEditarProp = "El precio debe ser mayor que cero y las cantidades no pueden ser negativas.";
                     } else {
                         PreparedStatement psActualizarProp = conEditarProp.prepareStatement(
-                            "UPDATE propiedad SET titulo=?, descripcion=?, precio=?, operacion=?, habitaciones=?, banos=?, area_m2=?, estado=?, id_ciudad=?, id_tipo=? " +
+                            "UPDATE propiedad SET matricula_inmobiliaria=?, titulo=?, descripcion=?, precio=?, operacion=?, habitaciones=?, banos=?, area_m2=?, estado=?, id_ciudad=?, id_tipo=? " +
                             "WHERE id_propiedad=? AND id_inmobiliaria=?");
-                        psActualizarProp.setString(1, tituloEdit.trim());
-                        psActualizarProp.setString(2, descripcionEdit);
-                        psActualizarProp.setDouble(3, precioValidadoEdit);
-                        psActualizarProp.setString(4, operacionEdit);
-                        psActualizarProp.setInt(5, habitacionesValidadasEdit);
-                        psActualizarProp.setInt(6, banosValidadosEdit);
+                        psActualizarProp.setString(1, matriculaEdit.trim());
+                        psActualizarProp.setString(2, tituloEdit.trim());
+                        psActualizarProp.setString(3, descripcionEdit);
+                        psActualizarProp.setDouble(4, precioValidadoEdit);
+                        psActualizarProp.setString(5, operacionEdit);
+                        psActualizarProp.setInt(6, habitacionesValidadasEdit);
+                        psActualizarProp.setInt(7, banosValidadosEdit);
                         if (areaEdit == null || areaEdit.trim().isEmpty()) {
-                            psActualizarProp.setNull(7, Types.DECIMAL);
+                            psActualizarProp.setNull(8, Types.DECIMAL);
                         } else {
-                            psActualizarProp.setDouble(7, areaValidadaEdit);
+                            psActualizarProp.setDouble(8, areaValidadaEdit);
                         }
-                        psActualizarProp.setString(8, estadoEdit);
-                        psActualizarProp.setInt(9, Integer.parseInt(idCiudadEdit));
-                        psActualizarProp.setInt(10, Integer.parseInt(idTipoEdit));
-                        psActualizarProp.setInt(11, idPropiedadEditar);
-                        psActualizarProp.setInt(12, idInmobiliariaEditar);
+                        psActualizarProp.setString(9, estadoEdit);
+                        psActualizarProp.setInt(10, Integer.parseInt(idCiudadEdit));
+                        psActualizarProp.setInt(11, Integer.parseInt(idTipoEdit));
+                        psActualizarProp.setInt(12, idPropiedadEditar);
+                        psActualizarProp.setInt(13, idInmobiliariaEditar);
                         psActualizarProp.executeUpdate();
                         psActualizarProp.close();
                         response.sendRedirect(request.getContextPath() + "/inmobiliaria/propiedades.jsp");
@@ -104,6 +107,8 @@
                 }
             }
         }
+    } catch (SQLIntegrityConstraintViolationException exDuplicadoEditarProp) {
+        mensajeErrorEditarProp = "La matrícula inmobiliaria ya está registrada.";
     } catch (Exception exEditarProp) {
         mensajeErrorEditarProp = "Ocurrió un problema al procesar la propiedad.";
     }
@@ -128,6 +133,10 @@
         if (rsCargarProp.next()) {
 %>
     <form method="post" action="<%= request.getContextPath() %>/inmobiliaria/editar-propiedad.jsp?id=<%= idPropiedadEditar %>" class="card-registro">
+        <div class="mb-3">
+            <label class="form-label">Matrícula inmobiliaria</label>
+            <input type="text" name="matricula_inmobiliaria" class="form-control" maxlength="50" value="<%= rsCargarProp.getString("matricula_inmobiliaria") %>" required>
+        </div>
         <div class="mb-3">
             <label class="form-label">Título</label>
             <input type="text" name="titulo" class="form-control" value="<%= rsCargarProp.getString("titulo") %>" required>
