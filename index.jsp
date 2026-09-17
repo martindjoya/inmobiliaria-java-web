@@ -34,7 +34,7 @@
                     </li>
                 <% } else { %>
                     <li class="nav-item"><span class="nav-link">Hola, <%= nombreUsuario %> (<%= rolUsuario %>)</span></li>
-                    <li class="nav-item"><a class="btn-login ms-lg-3" href="logout.jsp">Cerrar sesión</a></li>
+                    <li class="nav-item"><a class="btn-login ms-lg-3" href="logout.jsp">Cerrar sesion</a></li>
                 <% } %>
             </ul>
         </div>
