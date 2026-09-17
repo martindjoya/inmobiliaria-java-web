@@ -7,7 +7,7 @@ El Sprint 2 dejo disponible una base funcional del flujo inmobiliario: catalogo 
 El Sprint 3 sera el sprint de cierre funcional y validacion final. Su objetivo es convertir los flujos parciales en una entrega demostrable, corregir los riesgos que pueden producir datos invalidos o accesos indebidos y completar la documentacion exigida por el proyecto.
 
 **Fecha de inicio:** 2026-09-17  
-**Jornada de trabajo planificada:** 10:00 a 12:00 (120 minutos)  
+**Jornadas de trabajo planificadas:** 10:00 a 12:00 y 13:00 a 14:00 (180 minutos en total)  
 **Producto:** Dream House S.A.
 
 ## 2. Objetivo del sprint
@@ -26,6 +26,7 @@ Entregar una version estable de Dream House S.A. en la que los roles Cliente, In
 - Registro de acciones relevantes en auditoria.
 - Reportes administrativos con consultas agregadas usando `GROUP BY` y `HAVING` cuando aplique.
 - Pruebas de regresion con los datos demo y documentacion final del sistema.
+- Verificacion de los requisitos completos del parcial: filtro de servlet, perfil 1:1, matricula inmobiliaria unica, cinco consultas SQL obligatorias, DDL/DML, modelos, diccionario, pruebas unitarias, tablero y evidencia Git.
 
 ### No incluye
 
@@ -116,12 +117,16 @@ Como equipo, queremos ejecutar una matriz de pruebas reproducible para comprobar
 | P1 | Completar auditoria de operaciones | HU-304 | Acciones relevantes trazables |
 | P1 | Crear reportes administrativos | HU-305 | Consultas agregadas con resultados verificables |
 | P1 | Ejecutar pruebas de regresion | HU-306 | Matriz de pruebas con evidencias |
-| P2 | Completar MER, modelo relacional y diccionario | HU-306 | Documentacion tecnica alineada con la base real |
+| P1 | Completar consultas SQL obligatorias | HU-305, HU-306 | Dos `INNER JOIN`, una N:M, un `LEFT JOIN` y un `GROUP BY` con `HAVING` documentados |
+| P1 | Verificar filtro de servlet y MVC/JSPF | HU-304, HU-306 | Rutas privadas protegidas por servidor y conexion centralizada |
+| P1 | Completar MER, modelo relacional y diccionario | HU-306 | Documentacion tecnica alineada con la base real y 3FN explicada |
+| P1 | Preparar DDL/DML y restricciones UNIQUE | HU-301, HU-306 | Tres `UNIQUE`, matricula inmobiliaria y datos de prueba suficientes |
+| P1 | Preparar pruebas unitarias y evidencia Scrum/Git | HU-306 | Pruebas, tablero, commits y entregables verificables |
 | P2 | Revisar consistencia visual y mensajes | HU-306 | Flujos principales claros y sin errores visibles |
 
 ## 6. Plan de trabajo de la jornada
 
-La jornada se limita a 120 minutos. Se priorizan los tres elementos P0 del backlog y una validacion rapida del incremento. Los elementos P1 y P2 se mantienen como trabajo posterior del Sprint 3.
+Las jornadas suman 180 minutos. La primera sesion protege la operacion funcional P0; la segunda completa la cobertura documental y tecnica necesaria para aspirar al 100% del parcial. Los cambios que requieran mas tiempo deben quedar registrados como riesgo, no ocultarse como terminados.
 
 | Hora | Actividad | Resultado esperado |
 |---|---|---|
@@ -133,14 +138,45 @@ La jornada se limita a 120 minutos. Se priorizan los tres elementos P0 del backl
 | 11:40-11:55 | Ejecutar regresion rapida | Flujos de Visitante, Cliente, Inmobiliaria y Administrador revisados |
 | 11:55-12:00 | Registrar resultados y pendientes | Evidencia de pruebas y tareas P1/P2 documentadas |
 
+**Pausa de 12:00 a 13:00.**
+
+| Hora | Actividad | Resultado esperado |
+|---|---|---|
+| 13:00-13:10 | Revisar matriz de requisitos del parcial | Cada requisito tiene archivo, prueba o evidencia asociada |
+| 13:10-13:25 | Verificar seguridad tecnica | Filtro de servlet, control de sesion, roles y acceso denegado comprobados |
+| 13:25-13:40 | Verificar modelo y restricciones | Relaciones 1:1, 1:N y N:M, tres `UNIQUE`, matricula y DDL/DML revisados |
+| 13:40-13:50 | Verificar consultas y pruebas | Cinco consultas obligatorias, pruebas unitarias y datos demo identificados |
+| 13:50-14:00 | Cierre documental y evidencia | MER, modelo relacional, diccionario, casos de uso, tablero, Git y pendientes listos |
+
 ### Criterio de priorizacion durante la jornada
 
 1. Resolver primero cualquier bloqueo de conexion, compilacion o autenticacion.
 2. Completar solo cambios necesarios para las historias HU-301, HU-302 y HU-303.
 3. Detener la incorporacion de funcionalidades nuevas a las 11:40 para reservar tiempo a la regresion.
-4. Registrar como pendiente cualquier tarea que no pueda validarse antes de las 12:00.
+4. Usar la sesion de 13:00 a 14:00 para cerrar requisitos tecnicos, documentales y de evidencia, no para iniciar funcionalidades nuevas.
+5. Registrar como pendiente cualquier tarea que no pueda validarse antes de las 14:00.
 
-## 7. Definicion de terminado (DoD)
+## 7. Matriz de cobertura del parcial
+
+| Requisito del parcial | Evidencia que debe quedar lista | Responsable de verificacion |
+|---|---|---|
+| Landing, catalogo y responsividad | `index.jsp`, filtros, detalle, Bootstrap/CSS y prueba movil | Equipo |
+| Hash, login, logout y roles | `procesar-login.jsp`, `HashContrasenas`, sesiones y casos por rol | Equipo |
+| Filtro de servlet obligatorio | Filtro desplegado, mapeo de rutas y prueba de URL directa | Equipo |
+| CRUD y baja logica de propiedades | JSP de propiedades, estados y prueba de propietario | Inmobiliaria |
+| Perfil 1:1 | `perfil`, `perfil.id_usuario UNIQUE`, formulario y consulta | Cliente |
+| Relaciones 1:N y N:M | MER, modelo relacional, DDL y explicación de FK/tablas puente | Equipo |
+| Tres restricciones `UNIQUE` | Email, matricula y perfil/relacion; mensajes ante duplicados | Equipo |
+| Citas, solicitudes y documentos | Flujos Cliente/Inmobiliaria y validaciones de negocio | Equipo |
+| Cinco consultas obligatorias | Dos `INNER JOIN`, N:M, `LEFT JOIN`, `GROUP BY`/`HAVING` documentados | Equipo |
+| Reportes y auditoria | Pantallas administrativas y registros verificables | Administrador |
+| DDL/DML y datos de prueba | Script ejecutable y datos suficientes para tablas principales | Equipo |
+| MVC, JSPF y conexion centralizada | Estructura documentada, fragmentos reutilizables y configuracion unica | Equipo |
+| Scrum, Git y tablero | Planning, review, retrospective, tablero y commits descriptivos | Equipo |
+| Pruebas y sustentacion | Pruebas unitarias, matriz de regresion y guion de explicacion | Cada integrante |
+| Despliegue | Aplicacion local validada; ambiente en linea como evidencia adicional | Equipo |
+
+## 8. Definicion de terminado (DoD)
 
 El Sprint 3 se considera terminado cuando:
 
@@ -153,8 +189,10 @@ El Sprint 3 se considera terminado cuando:
 - La aplicacion compila y carga en Tomcat sin errores nuevos de JSP o JDBC.
 - La matriz de pruebas incluye resultados para casos exitosos y fallidos.
 - La documentacion tecnica y funcional refleja el estado entregado.
+- La matriz de cobertura del parcial no tiene requisitos obligatorios sin evidencia.
+- Los integrantes pueden explicar individualmente el modelo, las consultas y el control de acceso.
 
-## 8. Riesgos y mitigaciones
+## 9. Riesgos y mitigaciones
 
 | Riesgo | Impacto | Mitigacion |
 |---|---|---|
@@ -164,7 +202,7 @@ El Sprint 3 se considera terminado cuando:
 | Datos demo insuficientes para reportes y estados | Medio | Preparar datos para todos los estados y documentar el script |
 | Tiempo limitado para corregir defectos | Alto | Resolver primero P0 y congelar funcionalidades nuevas en la fase de regresion |
 
-## 9. Entregables
+## 10. Entregables
 
 - Aplicacion desplegable y verificada en Tomcat.
 - Script de datos demo actualizado.
@@ -174,8 +212,9 @@ El Sprint 3 se considera terminado cuando:
 - Casos de uso o historias actualizadas.
 - Sprint Review 3.
 - Retrospective 3.
+- Matriz de cobertura del parcial y guion de sustentacion.
 
-## 10. Preguntas de control para la primera reunion
+## 11. Preguntas de control para la primera reunion
 
 1. ¿El equipo dispone de un entorno donde Tomcat permita carga real de archivos?
 2. ¿Que estados y transiciones de citas y solicitudes se aceptaran como regla definitiva?
