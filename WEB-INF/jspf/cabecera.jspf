@@ -31,7 +31,7 @@
                     <li class="nav-item"><a class="btn-login" href="<%= contextoApp %>/login.jsp">Iniciar sesión</a></li>
                 <% } else { %>
                     <li class="nav-item"><span class="nav-link">Hola, <%= nombreUsuarioSesion %></span></li>
-                    <li class="nav-item"><a class="btn-login" href="<%= contextoApp %>/logout.jsp">Cerrar sesión</a></li>
+                    <li class="nav-item"><a class="btn-login" href="<%= contextoApp %>/logout.jsp">Cerrar sesion</a></li>
                 <% } %>
             </ul>
         </div>
