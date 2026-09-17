@@ -15,7 +15,7 @@
         String fechaCitaTexto = request.getParameter("fecha_cita");
 
         if (idPropCita == null || idPropCita.isEmpty() || fechaCitaTexto == null || fechaCitaTexto.isEmpty()) {
-            mensajeErrorCita = "Debes seleccionar una propiedad y una fecha.";
+            mensajeErrorCita = "Debes llegar desde el detalle de una propiedad y seleccionar una fecha.";
         } else {
             Connection conAgendar = null;
             try {
@@ -48,38 +48,21 @@
 <%
     }
 %>
-    <form method="post" action="<%= request.getContextPath() %>/cliente/mis-citas.jsp" class="card-registro mb-5">
+<% if (propiedadSeleccionadaCita != null && !propiedadSeleccionadaCita.isEmpty()) { %>
+    <form method="post" action="<%= request.getContextPath() %>/cliente/mis-citas.jsp?id_propiedad=<%= propiedadSeleccionadaCita %>" class="card-registro mb-5">
         <input type="hidden" name="accion" value="agendar">
-        <div class="mb-3">
-            <label class="form-label">Propiedad</label>
-            <select name="id_propiedad" class="form-select" required>
-                <option value="">Selecciona una propiedad</option>
-<%
-    Connection conPropCita = null;
-    try {
-        conPropCita = obtenerConexion();
-        PreparedStatement psPropCita = conPropCita.prepareStatement(
-            "SELECT id_propiedad, titulo FROM propiedad WHERE estado = 'disponible' ORDER BY titulo");
-        ResultSet rsPropCita = psPropCita.executeQuery();
-        while (rsPropCita.next()) {
-%>
-                <option value="<%= rsPropCita.getInt("id_propiedad") %>" <%= String.valueOf(rsPropCita.getInt("id_propiedad")).equals(propiedadSeleccionadaCita) ? "selected" : "" %>><%= rsPropCita.getString("titulo") %></option>
-<%
-        }
-        rsPropCita.close(); psPropCita.close();
-    } catch (Exception exPropCita) {
-    } finally {
-        if (conPropCita != null) { try { conPropCita.close(); } catch (Exception ig) {} }
-    }
-%>
-            </select>
-        </div>
+        <input type="hidden" name="id_propiedad" value="<%= propiedadSeleccionadaCita %>">
         <div class="mb-3">
             <label class="form-label">Fecha y hora</label>
             <input type="datetime-local" name="fecha_cita" class="form-control" required>
         </div>
         <button type="submit" class="btn-explorar w-100">Agendar visita</button>
     </form>
+<% } else { %>
+    <div class="alert alert-secondary mb-5">
+        Para agendar una visita, abre el detalle de una propiedad y utiliza allí el botón «Agendar visita».
+    </div>
+<% } %>
 
     <h3 class="titulo-seccion mb-3">Mis citas</h3>
     <table class="table table-bordered bg-white">
