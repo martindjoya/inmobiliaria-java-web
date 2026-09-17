@@ -215,18 +215,6 @@
         </div>
     </section>
 
-    <!-- SOBRE DREAM HOUSE -->
-    <section id="nosotros" class="seccion-nosotros py-5">
-        <div class="container text-center">
-            <h2 class="titulo-seccion mb-4">Sobre Dream House S.A.</h2>
-            <p class="texto-nosotros mx-auto">
-                En Dream House S.A. acompañamos a cada cliente en la búsqueda de un espacio que se ajuste
-                a su estilo de vida. Combinamos atención cercana con una selección cuidada de propiedades,
-                ofreciendo un proceso simple, transparente y confiable.
-            </p>
-        </div>
-    </section>
-
     <!-- LLAMADO A LA ACCIÓN -->
     <section class="cta text-center">
         <div class="container">
