@@ -146,7 +146,6 @@
         <div class="container">
             <h2>¿Listo para encontrar tu próximo hogar?</h2>
             <p>Explora nuestras propiedades y encuentra tu próximo hogar.</p>
-            <a href="#propiedades" class="btn-cta me-2">Ver propiedades</a>
             <% if (idUsuario != null && "Administrador".equalsIgnoreCase(rolUsuario)) { %>
                 <a href="admin/inicio.jsp" class="btn-cta btn-cta-outline">Ir al panel</a>
             <% } else if (idUsuario != null && "Inmobiliaria".equalsIgnoreCase(rolUsuario)) { %>
