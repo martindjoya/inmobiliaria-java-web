@@ -67,6 +67,10 @@
     <!-- BUSQUEDA PRINCIPAL -->
     <section class="buscador-wrapper">
         <div class="container">
+            <div class="text-center mb-4">
+                <h2>¿Listo para encontrar tu próximo hogar?</h2>
+                <p class="mb-0">Busca una propiedad y descubre opciones pensadas para ti.</p>
+            </div>
             <form method="get" action="index.jsp#propiedades" class="buscador row g-3 align-items-end justify-content-center">
                 <div class="col-md-3">
                     <label class="form-label" for="tipo">Tipo de propiedad</label>
@@ -146,6 +150,13 @@
                     <a href="index.jsp#propiedades" class="btn-detalles d-block text-center">Limpiar</a>
                 </div>
             </form>
+            <% if (idUsuario != null && "Administrador".equalsIgnoreCase(rolUsuario)) { %>
+                <div class="text-center mt-4"><a href="admin/inicio.jsp" class="btn-cta btn-cta-outline">Ir al panel</a></div>
+            <% } else if (idUsuario != null && "Inmobiliaria".equalsIgnoreCase(rolUsuario)) { %>
+                <div class="text-center mt-4"><a href="inmobiliaria/inicio.jsp" class="btn-cta btn-cta-outline">Ir al panel</a></div>
+            <% } else if (idUsuario != null) { %>
+                <div class="text-center mt-4"><a href="cliente/panel.jsp" class="btn-cta btn-cta-outline">Ir a mi panel</a></div>
+            <% } %>
         </div>
     </section>
 
@@ -212,21 +223,6 @@
         if (conexionResultadosIndex != null) { try { conexionResultadosIndex.close(); } catch (Exception ignorado) { } }
     }
 %>
-        </div>
-    </section>
-
-    <!-- LLAMADO A LA ACCIÓN -->
-    <section class="cta text-center">
-        <div class="container">
-            <h2>¿Listo para encontrar tu próximo hogar?</h2>
-            <p>Explora nuestras propiedades y encuentra tu próximo hogar.</p>
-            <% if (idUsuario != null && "Administrador".equalsIgnoreCase(rolUsuario)) { %>
-                <a href="admin/inicio.jsp" class="btn-cta btn-cta-outline">Ir al panel</a>
-            <% } else if (idUsuario != null && "Inmobiliaria".equalsIgnoreCase(rolUsuario)) { %>
-                <a href="inmobiliaria/inicio.jsp" class="btn-cta btn-cta-outline">Ir al panel</a>
-            <% } else if (idUsuario != null) { %>
-                <a href="cliente/panel.jsp" class="btn-cta btn-cta-outline">Ir a mi panel</a>
-            <% } %>
         </div>
     </section>
 
