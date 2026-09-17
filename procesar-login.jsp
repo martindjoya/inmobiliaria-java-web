@@ -67,7 +67,7 @@
                         } else if (nombreRol.equals("Inmobiliaria")) {
                             response.sendRedirect("bienvenida-agente.jsp");
                         } else {
-                            response.sendRedirect("bienvenida-cliente.jsp");
+                            response.sendRedirect("index.jsp");
                         }
                         return;
                     }

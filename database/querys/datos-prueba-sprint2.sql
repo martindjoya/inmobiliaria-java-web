@@ -14,6 +14,24 @@ SET @id_rol_inmobiliaria = (SELECT id_rol FROM rol WHERE nombre = 'Inmobiliaria'
 INSERT IGNORE INTO usuario_rol (id_usuario, id_rol)
 VALUES (@id_agente, @id_rol_inmobiliaria);
 
+INSERT INTO usuario (nombre, email, contrasena, activo)
+SELECT 'Cliente Demo', 'cliente.demo@dreamhouse.local', '$2a$10$yqH81/pPY9IxjME8qko0J.zi30lEWX3g6xdrbDMZoXVw1akhRGtYe', 1
+WHERE NOT EXISTS (
+    SELECT 1 FROM usuario WHERE email = 'cliente.demo@dreamhouse.local'
+);
+
+SET @id_cliente = (SELECT id_usuario FROM usuario WHERE email = 'cliente.demo@dreamhouse.local');
+SET @id_rol_cliente = (SELECT id_rol FROM rol WHERE nombre = 'Cliente');
+
+INSERT IGNORE INTO usuario_rol (id_usuario, id_rol)
+VALUES (@id_cliente, @id_rol_cliente);
+
+INSERT INTO perfil (id_usuario, telefono, direccion)
+SELECT @id_cliente, '3007654321', 'Calle Demo 123'
+WHERE NOT EXISTS (
+    SELECT 1 FROM perfil WHERE id_usuario = @id_cliente
+);
+
 INSERT INTO inmobiliaria (id_usuario, nombre_comercial, nit, telefono_contacto)
 SELECT @id_agente, 'Dream House Demo', '900123456-7', '3001234567'
 WHERE NOT EXISTS (

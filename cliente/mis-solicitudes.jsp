@@ -7,6 +7,7 @@
 <%@ include file="/WEB-INF/jspf/conexion.jspf" %>
 <%
     int idUsuarioSol = (Integer) session.getAttribute("idUsuario");
+    String propiedadSeleccionadaSol = request.getParameter("id_propiedad");
     String mensajeErrorSol = null;
 
     if ("crear".equals(request.getParameter("accion")) && "POST".equalsIgnoreCase(request.getMethod())) {
@@ -63,7 +64,7 @@
         ResultSet rsPropSol = psPropSol.executeQuery();
         while (rsPropSol.next()) {
 %>
-                <option value="<%= rsPropSol.getInt("id_propiedad") %>"><%= rsPropSol.getString("titulo") %></option>
+                <option value="<%= rsPropSol.getInt("id_propiedad") %>" <%= String.valueOf(rsPropSol.getInt("id_propiedad")).equals(propiedadSeleccionadaSol) ? "selected" : "" %>><%= rsPropSol.getString("titulo") %></option>
 <%
         }
         rsPropSol.close(); psPropSol.close();

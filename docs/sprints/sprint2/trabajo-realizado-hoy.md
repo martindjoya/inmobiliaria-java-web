@@ -200,6 +200,32 @@ El script no reemplaza datos existentes y debe ejecutarse solo en un entorno de 
 | Filtro `operacion=alquiler` | 1 propiedad |
 | Filtro por ciudad Bucaramanga | 1 propiedad |
 
+## 11. Flujo de Cliente desde el detalle
+
+Se ajusto el flujo de autenticacion para que el Cliente llegue directamente a `index.jsp` despues de iniciar sesion. Desde el catalogo puede abrir el detalle de una propiedad y realizar acciones sin volver a seleccionar el inmueble:
+
+- guardar la propiedad en favoritos;
+- abrir el formulario de agendamiento con la propiedad preseleccionada;
+- abrir el formulario de solicitud con la propiedad preseleccionada.
+
+El panel de Cliente queda orientado al seguimiento: muestra los contadores de favoritos, citas pendientes y solicitudes pendientes, junto con los accesos a sus listados.
+
+Para probar este flujo se agrego al script de datos demo:
+
+- Correo: `cliente.demo@dreamhouse.local`
+- Contrasena: `Prueba123!`
+
+Validaciones realizadas:
+
+| Escenario | Resultado |
+|---|---|
+| Login Cliente | HTTP 302 hacia `index.jsp` |
+| Index autenticado | HTTP 200 |
+| Detalle autenticado | HTTP 200 con favorito, cita y solicitud |
+| Guardar favorito | HTTP 302 y registro persistido |
+| Cita con propiedad recibida | HTTP 200 y propiedad preseleccionada |
+| Solicitud con propiedad recibida | HTTP 200 y propiedad preseleccionada |
+
 ## 10. Limpieza de redundancias en la interfaz
 
 Se revisaron las pantallas de bienvenida de Cliente, Inmobiliaria y Administrador. Se eliminaron accesos repetidos que llevaban al mismo panel o duplicaban acciones ya disponibles en las tarjetas de cada rol.

@@ -5,12 +5,36 @@
 
 <%
     String idParametro = request.getParameter("id");
+    Object idUsuarioDetalle = session.getAttribute("idUsuario");
+    String rolUsuarioDetalle = (String) session.getAttribute("rolUsuario");
+    String mensajeDetalle = null;
     Connection conexionDet = null;
     Integer idPropiedadValido = null;
     try {
         idPropiedadValido = Integer.parseInt(idParametro);
     } catch (Exception ePar) {
         idPropiedadValido = null;
+    }
+
+    if (idPropiedadValido != null && "favorito".equals(request.getParameter("accion"))
+            && "POST".equalsIgnoreCase(request.getMethod())
+            && idUsuarioDetalle != null && "Cliente".equalsIgnoreCase(rolUsuarioDetalle)) {
+        try {
+            conexionDet = obtenerConexion();
+            PreparedStatement psFavorito = conexionDet.prepareStatement(
+                "INSERT IGNORE INTO favorito (id_usuario, id_propiedad) VALUES (?, ?)");
+            psFavorito.setInt(1, (Integer) idUsuarioDetalle);
+            psFavorito.setInt(2, idPropiedadValido);
+            psFavorito.executeUpdate();
+            psFavorito.close();
+            response.sendRedirect(request.getContextPath() + "/cliente/favoritos.jsp");
+            return;
+        } catch (Exception exFavorito) {
+            mensajeDetalle = "No se pudo guardar la propiedad en favoritos.";
+        } finally {
+            if (conexionDet != null) { try { conexionDet.close(); } catch (Exception ignorado) { } }
+            conexionDet = null;
+        }
     }
 %>
 
@@ -94,8 +118,26 @@
 %>
     </ul>
 
-    <div class="alert alert-secondary mt-4">
-        Para agendar una visita o marcar como favorito, necesitas <a href="<%= request.getContextPath() %>/login.jsp">iniciar sesión</a>.
+    <% if (mensajeDetalle != null) { %>
+        <div class="alert alert-danger mt-4"><%= mensajeDetalle %></div>
+    <% } %>
+    <div class="d-flex flex-wrap gap-2 mt-4">
+<%
+                if (idUsuarioDetalle != null && "Cliente".equalsIgnoreCase(rolUsuarioDetalle)) {
+%>
+        <form method="post" action="<%= request.getContextPath() %>/detalle-propiedad.jsp?id=<%= idPropiedadValido %>">
+            <input type="hidden" name="accion" value="favorito">
+            <button type="submit" class="btn-explorar">Guardar en favoritos</button>
+        </form>
+        <a href="<%= request.getContextPath() %>/cliente/mis-citas.jsp?id_propiedad=<%= idPropiedadValido %>" class="btn-detalles">Agendar visita</a>
+        <a href="<%= request.getContextPath() %>/cliente/mis-solicitudes.jsp?id_propiedad=<%= idPropiedadValido %>" class="btn-detalles">Crear solicitud</a>
+<%
+                } else if (idUsuarioDetalle == null) {
+%>
+        <a href="<%= request.getContextPath() %>/login.jsp" class="btn-explorar">Inicia sesión para interactuar</a>
+<%
+                }
+%>
     </div>
 <%
             } else {
