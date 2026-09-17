@@ -147,7 +147,15 @@
             <h2>¿Listo para encontrar tu próximo hogar?</h2>
             <p>Explora nuestras propiedades o inicia sesión para guardar tus favoritas.</p>
             <a href="#propiedades" class="btn-cta me-2">Ver propiedades</a>
-            <a href="login.jsp" class="btn-cta btn-cta-outline">Iniciar sesión</a>
+            <% if (idUsuario == null) { %>
+                <a href="login.jsp" class="btn-cta btn-cta-outline">Iniciar sesión</a>
+            <% } else if ("Administrador".equalsIgnoreCase(rolUsuario)) { %>
+                <a href="admin/inicio.jsp" class="btn-cta btn-cta-outline">Ir al panel</a>
+            <% } else if ("Inmobiliaria".equalsIgnoreCase(rolUsuario)) { %>
+                <a href="inmobiliaria/inicio.jsp" class="btn-cta btn-cta-outline">Ir al panel</a>
+            <% } else { %>
+                <a href="cliente/inicio.jsp" class="btn-cta btn-cta-outline">Ir a mi panel</a>
+            <% } %>
         </div>
     </section>
 
