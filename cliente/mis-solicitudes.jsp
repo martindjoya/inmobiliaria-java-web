@@ -9,6 +9,7 @@
     int idUsuarioSol = (Integer) session.getAttribute("idUsuario");
     String propiedadSeleccionadaSol = request.getParameter("id_propiedad");
     String mensajeErrorSol = null;
+    boolean propiedadSeleccionadaSolValida = false;
 
     if ("crear".equals(request.getParameter("accion")) && "POST".equalsIgnoreCase(request.getMethod())) {
         String idPropSol = request.getParameter("id_propiedad");
@@ -20,20 +21,75 @@
         } else {
             Connection conCrearSol = null;
             try {
+                int idPropiedadSolicitud = Integer.parseInt(idPropSol);
                 conCrearSol = obtenerConexion();
-                PreparedStatement psCrearSol = conCrearSol.prepareStatement(
-                    "INSERT INTO solicitud (id_propiedad, id_usuario, tipo_solicitud, estado) VALUES (?, ?, ?, 'pendiente')");
-                psCrearSol.setInt(1, Integer.parseInt(idPropSol));
-                psCrearSol.setInt(2, idUsuarioSol);
-                psCrearSol.setString(3, tipoSol);
-                psCrearSol.executeUpdate();
-                psCrearSol.close();
-                response.sendRedirect(request.getContextPath() + "/cliente/mis-solicitudes.jsp");
-                return;
+                PreparedStatement psPropiedadSol = conCrearSol.prepareStatement(
+                    "SELECT id_propiedad FROM propiedad WHERE id_propiedad = ? AND estado = 'disponible'");
+                psPropiedadSol.setInt(1, idPropiedadSolicitud);
+                ResultSet rsPropiedadSol = psPropiedadSol.executeQuery();
+                boolean propiedadDisponibleSol = rsPropiedadSol.next();
+                rsPropiedadSol.close();
+                psPropiedadSol.close();
+
+                if (!propiedadDisponibleSol) {
+                    mensajeErrorSol = "La propiedad no existe o ya no está disponible para solicitudes.";
+                } else {
+                    PreparedStatement psDuplicadaSol = conCrearSol.prepareStatement(
+                        "SELECT id_solicitud FROM solicitud WHERE id_usuario = ? AND id_propiedad = ? " +
+                        "AND estado IN ('pendiente', 'en_revision') LIMIT 1");
+                    psDuplicadaSol.setInt(1, idUsuarioSol);
+                    psDuplicadaSol.setInt(2, idPropiedadSolicitud);
+                    ResultSet rsDuplicadaSol = psDuplicadaSol.executeQuery();
+                    boolean solicitudDuplicada = rsDuplicadaSol.next();
+                    rsDuplicadaSol.close();
+                    psDuplicadaSol.close();
+
+                    if (solicitudDuplicada) {
+                        mensajeErrorSol = "Ya tienes una solicitud activa para esta propiedad.";
+                    } else {
+                        PreparedStatement psCrearSol = conCrearSol.prepareStatement(
+                            "INSERT INTO solicitud (id_propiedad, id_usuario, tipo_solicitud, estado) VALUES (?, ?, ?, 'pendiente')");
+                        psCrearSol.setInt(1, idPropiedadSolicitud);
+                        psCrearSol.setInt(2, idUsuarioSol);
+                        psCrearSol.setString(3, tipoSol);
+                        psCrearSol.executeUpdate();
+                        psCrearSol.close();
+                        response.sendRedirect(request.getContextPath() + "/cliente/mis-solicitudes.jsp");
+                        return;
+                    }
+                }
+            } catch (NumberFormatException exIdPropSol) {
+                mensajeErrorSol = "La propiedad seleccionada no es válida.";
             } catch (Exception exCrearSol) {
                 mensajeErrorSol = "Ocurrió un problema al crear la solicitud.";
             } finally {
                 if (conCrearSol != null) { try { conCrearSol.close(); } catch (Exception ig) {} }
+            }
+        }
+    }
+
+    if (propiedadSeleccionadaSol != null && !propiedadSeleccionadaSol.trim().isEmpty()) {
+        Connection conValidarPropiedadSol = null;
+        try {
+            int idPropiedadSeleccionadaSol = Integer.parseInt(propiedadSeleccionadaSol);
+            conValidarPropiedadSol = obtenerConexion();
+            PreparedStatement psValidarPropiedadSol = conValidarPropiedadSol.prepareStatement(
+                "SELECT id_propiedad FROM propiedad WHERE id_propiedad = ? AND estado = 'disponible'");
+            psValidarPropiedadSol.setInt(1, idPropiedadSeleccionadaSol);
+            ResultSet rsValidarPropiedadSol = psValidarPropiedadSol.executeQuery();
+            propiedadSeleccionadaSolValida = rsValidarPropiedadSol.next();
+            rsValidarPropiedadSol.close();
+            psValidarPropiedadSol.close();
+            if (!propiedadSeleccionadaSolValida && mensajeErrorSol == null) {
+                mensajeErrorSol = "La propiedad no existe o ya no está disponible para solicitudes.";
+            }
+        } catch (NumberFormatException exIdSeleccionSol) {
+            mensajeErrorSol = "La propiedad seleccionada no es válida.";
+        } catch (Exception exValidarPropiedadSol) {
+            mensajeErrorSol = "No se pudo validar la propiedad seleccionada.";
+        } finally {
+            if (conValidarPropiedadSol != null) {
+                try { conValidarPropiedadSol.close(); } catch (Exception ignorado) { }
             }
         }
     }
@@ -49,6 +105,7 @@
 <%
     }
 %>
+<% if (propiedadSeleccionadaSol == null || propiedadSeleccionadaSol.trim().isEmpty() || propiedadSeleccionadaSolValida) { %>
     <form method="post" action="<%= request.getContextPath() %>/cliente/mis-solicitudes.jsp" class="card-registro mb-5">
         <input type="hidden" name="accion" value="crear">
         <div class="mb-3">
@@ -84,6 +141,7 @@
         </div>
         <button type="submit" class="btn-explorar w-100">Enviar solicitud</button>
     </form>
+<% } %>
 
     <h3 class="titulo-seccion mb-3">Mis solicitudes</h3>
     <table class="table table-bordered bg-white">
