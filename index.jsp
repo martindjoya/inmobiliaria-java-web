@@ -39,10 +39,10 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="menuPrincipal">
             <ul class="navbar-nav align-items-lg-center gap-lg-2">
-                <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#propiedades">Propiedades</a></li>
-                <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp">Propiedades</a></li>
+                <li class="nav-item"><a class="nav-link" href="nosotros.jsp">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="contacto.jsp">Contacto</a></li>
                 <% if (idUsuario == null) { %>
                     <li class="nav-item">
                         <a class="btn-login ms-lg-3" href="login.jsp">Iniciar sesión</a>
@@ -253,9 +253,9 @@
                 <div class="col-md-4 mb-3">
                     <h5>Enlaces</h5>
                     <ul class="lista-footer">
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#propiedades">Propiedades</a></li>
-                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="index.jsp">Inicio</a></li>
+                        <li><a href="index.jsp">Propiedades</a></li>
+                        <li><a href="nosotros.jsp">Nosotros</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-3">
