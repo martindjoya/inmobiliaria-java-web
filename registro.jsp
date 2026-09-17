@@ -41,7 +41,7 @@
                     <div class="mb-3">
                         <label class="form-label">Teléfono</label>
                            <input type="tel" class="form-control" name="telefono"
-                               pattern="[0-9+() -]{7,20}"
+                               pattern="[0-9()+ -]{7,20}"
                                title="Ingresa un teléfono válido de 7 a 20 caracteres."
                                value="<%= request.getAttribute("telefonoValor") != null ? request.getAttribute("telefonoValor") : "" %>">
                     </div>
