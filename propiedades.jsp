@@ -1,467 +1,194 @@
-Necesito que generes un archivo/documento de documentación correspondiente al:
-
-SPRINT 3 – DREAM HOUSE S.A.
-
-IMPORTANTE:
-NO necesitas revisar ningún otro archivo del proyecto.
-NO necesitas modificar código.
-NO necesitas crear código.
-NO necesitas pedirme que suba archivos.
-Toda la información necesaria para redactar este documento está en este prompt.
-
-El archivo debe quedar redactado como documentación académica de un Sprint de un proyecto universitario de desarrollo de software.
-
-==================================================
-INFORMACIÓN DEL PROYECTO
-==================================================
-
-Nombre:
-Dream House S.A.
-
-Tipo:
-Aplicación web para una inmobiliaria.
-
-Tecnologías utilizadas:
-
-- Java
-- JSP
-- JSPF
-- JDBC
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap
-- MySQL
-- Apache Tomcat
-- XAMPP
-- Visual Studio Code
-- Git/GitHub
-
-MySQL y Tomcat se ejecutan mediante XAMPP.
-
-La aplicación permite gestionar usuarios, roles, propiedades inmobiliarias, citas, solicitudes, documentos, favoritos y auditoría.
-
-Los roles principales del sistema son:
-
-- Cliente
-- Inmobiliaria
-- Administrador
-- Visitante
-
-==================================================
-ESTADO DEL PROYECTO AL INICIO DEL SPRINT 3
-==================================================
-
-Al llegar al Sprint 3, el proyecto ya tenía implementada la estructura principal de la aplicación y las funcionalidades principales.
-
-Durante el desarrollo se habían presentado problemas relacionados principalmente con:
-
-- conexión entre la aplicación y MySQL
-- configuración de XAMPP
-- registro de usuarios
-- existencia de roles en la base de datos
-- validación del teléfono
-- compilación/carga de la clase de conexión en Tomcat
-- funcionamiento del login y sus componentes
-
-Estos problemas fueron corregidos durante el desarrollo.
-
-==================================================
-CAMBIOS REALIZADOS
-==================================================
-
-1. CONEXIÓN A MYSQL
-
-Se ajustó la conexión de la aplicación a la configuración real utilizada en XAMPP.
-
-Configuración final:
-
-- usuario MySQL: root
-- contraseña: vacía
-- puerto: 3306
-
-También se añadió:
-
-allowPublicKeyRetrieval=true
-
-a la configuración de conexión JDBC.
-
-La clase utilizada para la conexión es:
-
-ConexionBD.java
-
-==================================================
-2. REGISTRO DE USUARIOS
-
-Se corrigió el flujo de registro en:
-
-procesar-registro.jsp
-
-Anteriormente el registro exigía que el rol "Cliente" ya existiera en la base de datos y esto provocaba errores cuando el rol no estaba creado.
-
-La solución implementada permite crear automáticamente el rol "Cliente" si no existe mediante:
-
-INSERT IGNORE
-
-Posteriormente se realiza la asignación del rol al usuario.
-
-El registro permite almacenar:
-
-- nombre
-- correo electrónico
-- teléfono
-- dirección
-- contraseña
-
-La información del usuario se almacena en las tablas correspondientes de la base de datos.
-
-==================================================
-3. ROLES INICIALES
-
-También se preparó el archivo:
-
-dream_house.sql
-
-para incluir los roles iniciales:
-
-- Cliente
-- Inmobiliaria
-- Administrador
-
-Esto permite que el sistema pueda trabajar correctamente con los diferentes perfiles de usuario.
-
-==================================================
-4. CONTRASEÑAS
-
-Las contraseñas de los usuarios NO se almacenan directamente como texto plano.
-
-El sistema utiliza hash seguro para almacenar las contraseñas y posteriormente verificar las credenciales durante el inicio de sesión.
-
-==================================================
-5. VALIDACIÓN DEL TELÉFONO
-
-Se corrigió la validación HTML del teléfono en:
-
-registro.jsp
-
-El patrón utilizado anteriormente estaba escrito incorrectamente y provocaba errores de validación en el navegador.
-
-La validación fue corregida para permitir que el formulario de registro funcione correctamente.
-
-==================================================
-6. TOMCAT
-
-Se recompiló la clase Java de conexión para que Tomcat utilizara la versión corregida de:
-
-ConexionBD.java
-
-Esto permitió solucionar problemas relacionados con la versión anterior de la clase de conexión.
-
-==================================================
-FUNCIONAMIENTO GENERAL DEL SISTEMA
-==================================================
-
-El flujo principal de la aplicación es:
-
-VISITANTE
-↓
-index.jsp
-↓
-consulta propiedades
-↓
-detalle de propiedad
-↓
-registro o login
-↓
-autenticación
-↓
-identificación del rol
-↓
-panel correspondiente
-
-Los usuarios autenticados pueden acceder a funcionalidades según su rol.
-
-==================================================
-MÓDULO CLIENTE
-==================================================
-
-El cliente puede:
-
-- consultar propiedades
-- consultar detalles de propiedades
-- gestionar favoritos
-- gestionar citas
-- consultar solicitudes
-- consultar documentos relacionados
-- actualizar su perfil
-
-La carpeta correspondiente es:
-
-cliente/
-
-con páginas como:
-
-- inicio.jsp
-- favoritos.jsp
-- mis-citas.jsp
-- mis-solicitudes.jsp
-- perfil.jsp
-
-==================================================
-MÓDULO INMOBILIARIA
-==================================================
-
-El usuario con rol Inmobiliaria puede trabajar con:
-
-- propiedades
-- publicación de propiedades
-- edición de propiedades
-- imágenes
-- características
-- citas
-- solicitudes
-- información relacionada con sus operaciones
-
-La carpeta correspondiente es:
-
-inmobiliaria/
-
-==================================================
-MÓDULO ADMINISTRADOR
-==================================================
-
-El administrador tiene funciones relacionadas con:
-
-- usuarios
-- roles
-- propiedades
-- supervisión del sistema
-- auditoría
-- información general
-
-La carpeta correspondiente es:
-
-admin/
-
-==================================================
-BASE DE DATOS
-==================================================
-
-La base de datos se llama:
-
-dream_house
-
-Contiene las siguientes tablas:
-
-- usuario
-- rol
-- usuario_rol
-- perfil
-- inmobiliaria
-- ciudad
-- tipo_propiedad
-- propiedad
-- imagen_propiedad
-- caracteristica
-- propiedad_caracteristica
-- cita
-- solicitud
-- documento_solicitud
-- favorito
-- auditoria
-
-El modelo permite trabajar con relaciones:
-
-- 1:1
-- 1:N
-- N:M
-
-==================================================
-ESTRUCTURA GENERAL
-==================================================
-
-La aplicación está organizada siguiendo una estructura basada en los ejercicios/simulacros trabajados en clase.
-
-En la raíz se encuentran páginas públicas y de autenticación como:
-
-- index.jsp
-- login.jsp
-- registro.jsp
-- acceso.jsp
-- procesar-login.jsp
-- procesar-registro.jsp
-- logout.jsp
-- propiedades.jsp
-- detalle-propiedad.jsp
-
-Además existen carpetas independientes por rol:
-
-- cliente/
-- inmobiliaria/
-- admin/
-
-Y elementos comunes:
-
-- css/
-- js/
-- WEB-INF/
-
-Dentro de WEB-INF se utilizan fragmentos JSPF y librerías necesarias para el funcionamiento de la aplicación.
-
-==================================================
-OBJETIVO DEL SPRINT 3
-==================================================
-
-El Sprint 3 corresponde a la etapa de cierre y consolidación del proyecto.
-
-Sus objetivos fueron:
-
-- corregir errores encontrados durante las pruebas
-- estabilizar la conexión con MySQL
-- completar y verificar el registro
-- asegurar la existencia de los roles necesarios
-- corregir validaciones del formulario
-- verificar el funcionamiento de autenticación y sesiones
-- integrar los módulos de los diferentes roles
-- comprobar el funcionamiento general de la aplicación
-- preparar el proyecto para su prueba final
-- dejar la aplicación lista para ser probada por otro integrante del equipo
-
-==================================================
-RESULTADOS DEL SPRINT 3
-==================================================
-
-Como resultado del Sprint 3:
-
-- Se corrigió la conexión JDBC con MySQL.
-- Se adaptó la conexión a la configuración real de XAMPP.
-- Se corrigió el registro de usuarios.
-- Se solucionó el problema relacionado con la inexistencia del rol Cliente.
-- Se prepararon los roles iniciales en la base de datos.
-- Se corrigió la validación del teléfono.
-- Se recompiló la clase de conexión para Tomcat.
-- El registro de usuarios logró completar correctamente el alta.
-- La aplicación quedó preparada para continuar con las pruebas de integración.
-- Se consolidó la estructura de módulos por rol.
-
-==================================================
-PRUEBAS DEL SPRINT
-==================================================
-
-Documenta las siguientes pruebas como pruebas realizadas o previstas dentro del cierre del Sprint:
-
-1. Comprobar conexión entre la aplicación y MySQL mediante XAMPP.
-
-2. Registrar un usuario nuevo.
-
-3. Intentar registrar un correo electrónico existente.
-
-4. Verificar que la contraseña se almacene mediante hash.
-
-5. Verificar que el usuario quede asociado al rol Cliente.
-
-6. Iniciar sesión con un usuario registrado.
-
-7. Verificar que el usuario activo pueda acceder a su área correspondiente.
-
-8. Comprobar el cierre de sesión.
-
-9. Comprobar que un usuario no pueda acceder a funciones correspondientes a otro rol.
-
-10. Probar las funcionalidades principales de Cliente.
-
-11. Probar las funcionalidades principales de Inmobiliaria.
-
-12. Probar las funcionalidades principales de Administrador.
-
-13. Comprobar las operaciones principales relacionadas con propiedades.
-
-14. Comprobar citas, solicitudes, favoritos y demás funciones implementadas.
-
-==================================================
-REDACCIÓN
-==================================================
-
-Quiero que el archivo tenga tono:
-
-- académico
-- claro
-- profesional
-- natural
-- conciso
-
-NO quiero que parezca escrito por una IA.
-
-NO utilices frases exageradas como:
-
-"se logró un éxito rotundo"
-"se revolucionó el sistema"
-"excelente implementación"
-"solución innovadora"
-
-Debe sonar como un informe real de estudiantes universitarios.
-
-NO inventes resultados, porcentajes, tiempos, métricas, errores específicos o pruebas que no estén mencionadas en este prompt.
-
-Si una prueba no tiene un resultado específico indicado, redacta el apartado de manera general sin inventar el resultado.
-
-==================================================
-ESTRUCTURA DEL DOCUMENTO
-==================================================
-
-El archivo debe contener:
-
-1. SPRINT 3 – DREAM HOUSE S.A.
-
-2. Objetivo del Sprint
-
-3. Estado inicial
-
-4. Actividades realizadas
-
-5. Correcciones y soluciones implementadas
-
-6. Integración de los módulos
-
-7. Base de datos y conexión
-
-8. Autenticación y roles
-
-9. Pruebas realizadas
-
-10. Resultados del Sprint
-
-11. Dificultades encontradas y soluciones
-
-12. Estado final del proyecto
-
-13. Conclusiones del Sprint 3
-
-14. Pendientes o recomendaciones finales, únicamente si realmente corresponden.
-
-No agregues una sección de "pendientes" que haga parecer que el proyecto está incompleto si la información proporcionada indica que el proyecto fue terminado.
-
-==================================================
-FORMATO
-==================================================
-
-Quiero que generes un archivo independiente llamado:
-
-SPRINT_3_DREAM_HOUSE_SA
-
-Preferiblemente en formato .docx.
-
-Debe tener:
-
-- título principal
-- subtítulos numerados
-- párrafos claros
-- listas cuando sean apropiadas
-- tablas solamente cuando realmente aporten
-- formato limpio y académico
-
-NO incluy código fuente extenso dentro del documento.
-
-El documento debe funcionar como evidencia/documentación del trabajo realizado durante el Sprint 3, no como manual de programación.
-
-Antes de generar el archivo, utiliza exclusivamente la información proporcionada en este prompt y no inventes información adicional.
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ include file="/WEB-INF/jspf/conexion.jspf" %>
+<%@ include file="/WEB-INF/jspf/cabecera.jspf" %>
+
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="titulo-seccion mb-1">Propiedades disponibles</h1>
+        <p class="subtitulo-registro mb-0">Encuentra el espacio adecuado para ti.</p>
+    </div>
+
+<%
+    String filtroCiudad = request.getParameter("ciudad");
+    String filtroTipo = request.getParameter("tipo");
+    String filtroOperacion = request.getParameter("operacion");
+    String filtroCaracteristica = request.getParameter("caracteristica");
+    String filtroPrecioMin = request.getParameter("precio_min");
+    String filtroPrecioMax = request.getParameter("precio_max");
+    Integer idCiudadFiltro = null;
+    Integer idTipoFiltro = null;
+    Integer idCaracteristicaFiltro = null;
+    Double precioMinFiltro = null;
+    Double precioMaxFiltro = null;
+    try { if (filtroCiudad != null && !filtroCiudad.isEmpty()) idCiudadFiltro = Integer.valueOf(filtroCiudad); } catch (NumberFormatException ignorado) { }
+    try { if (filtroTipo != null && !filtroTipo.isEmpty()) idTipoFiltro = Integer.valueOf(filtroTipo); } catch (NumberFormatException ignorado) { }
+    try { if (filtroCaracteristica != null && !filtroCaracteristica.isEmpty()) idCaracteristicaFiltro = Integer.valueOf(filtroCaracteristica); } catch (NumberFormatException ignorado) { }
+    try { if (filtroPrecioMin != null && !filtroPrecioMin.isEmpty()) precioMinFiltro = Double.valueOf(filtroPrecioMin); } catch (NumberFormatException ignorado) { }
+    try { if (filtroPrecioMax != null && !filtroPrecioMax.isEmpty()) precioMaxFiltro = Double.valueOf(filtroPrecioMax); } catch (NumberFormatException ignorado) { }
+%>
+    <form method="get" action="<%= request.getContextPath() %>/propiedades.jsp" class="buscador row g-3 align-items-end mb-5">
+        <div class="col-md-3">
+            <label class="form-label" for="ciudad">Ciudad</label>
+            <select id="ciudad" name="ciudad" class="form-select">
+                <option value="">Todas las ciudades</option>
+<%
+    Connection conexionFiltros = null;
+    try {
+        conexionFiltros = obtenerConexion();
+        PreparedStatement psCiudades = conexionFiltros.prepareStatement("SELECT id_ciudad, nombre FROM ciudad ORDER BY nombre");
+        ResultSet rsCiudades = psCiudades.executeQuery();
+        while (rsCiudades.next()) {
+            String seleccionCiudad = rsCiudades.getInt("id_ciudad") == (idCiudadFiltro == null ? -1 : idCiudadFiltro) ? "selected" : "";
+%>
+                <option value="<%= rsCiudades.getInt("id_ciudad") %>" <%= seleccionCiudad %>><%= rsCiudades.getString("nombre") %></option>
+<%
+        }
+        rsCiudades.close();
+        psCiudades.close();
+%>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="tipo">Tipo de propiedad</label>
+            <select id="tipo" name="tipo" class="form-select">
+                <option value="">Todos los tipos</option>
+<%
+        PreparedStatement psTipos = conexionFiltros.prepareStatement("SELECT id_tipo, nombre FROM tipo_propiedad ORDER BY nombre");
+        ResultSet rsTipos = psTipos.executeQuery();
+        while (rsTipos.next()) {
+            String seleccionTipo = rsTipos.getInt("id_tipo") == (idTipoFiltro == null ? -1 : idTipoFiltro) ? "selected" : "";
+%>
+                <option value="<%= rsTipos.getInt("id_tipo") %>" <%= seleccionTipo %>><%= rsTipos.getString("nombre") %></option>
+<%
+        }
+        rsTipos.close();
+        psTipos.close();
+%>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="operacion">Operacion</label>
+            <select id="operacion" name="operacion" class="form-select">
+                <option value="">Todas</option>
+                <option value="venta" <%= "venta".equals(filtroOperacion) ? "selected" : "" %>>Venta</option>
+                <option value="alquiler" <%= "alquiler".equals(filtroOperacion) ? "selected" : "" %>>Alquiler</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="caracteristica">Caracteristica</label>
+            <select id="caracteristica" name="caracteristica" class="form-select">
+                <option value="">Todas</option>
+<%
+        PreparedStatement psCaracteristicas = conexionFiltros.prepareStatement("SELECT id_caracteristica, nombre FROM caracteristica ORDER BY nombre");
+        ResultSet rsCaracteristicas = psCaracteristicas.executeQuery();
+        while (rsCaracteristicas.next()) {
+            String seleccionCaracteristica = rsCaracteristicas.getInt("id_caracteristica") == (idCaracteristicaFiltro == null ? -1 : idCaracteristicaFiltro) ? "selected" : "";
+%>
+                <option value="<%= rsCaracteristicas.getInt("id_caracteristica") %>" <%= seleccionCaracteristica %>><%= rsCaracteristicas.getString("nombre") %></option>
+<%
+        }
+        rsCaracteristicas.close();
+        psCaracteristicas.close();
+    } catch (Exception ignorado) {
+%>
+                <option value="">No disponible</option>
+<%
+    } finally {
+        if (conexionFiltros != null) { try { conexionFiltros.close(); } catch (Exception ignorado) { } }
+    }
+%>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="precio_min">Precio minimo</label>
+            <input id="precio_min" name="precio_min" type="number" min="0" step="0.01" class="form-control" value="<%= filtroPrecioMin == null ? "" : filtroPrecioMin %>">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="precio_max">Precio maximo</label>
+            <input id="precio_max" name="precio_max" type="number" min="0" step="0.01" class="form-control" value="<%= filtroPrecioMax == null ? "" : filtroPrecioMax %>">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn-explorar w-100">Buscar</button>
+        </div>
+        <div class="col-md-2">
+            <a href="<%= request.getContextPath() %>/propiedades.jsp" class="btn-detalles d-block text-center">Limpiar</a>
+        </div>
+    </form>
+    <div class="row g-4">
+<%
+    Connection conexionPropiedades = null;
+    try {
+        conexionPropiedades = obtenerConexion();
+        String sqlPropiedades =
+            "SELECT p.id_propiedad, p.titulo, p.precio, p.operacion, p.habitaciones, p.banos, p.area_m2, " +
+            "c.nombre AS nombre_ciudad, tp.nombre AS nombre_tipo, COALESCE(ip.url_imagen, '') AS url_imagen " +
+            "FROM propiedad p " +
+            "JOIN ciudad c ON p.id_ciudad = c.id_ciudad " +
+            "JOIN tipo_propiedad tp ON p.id_tipo = tp.id_tipo " +
+            "LEFT JOIN imagen_propiedad ip ON ip.id_imagen = (" +
+            "SELECT MIN(ip2.id_imagen) FROM imagen_propiedad ip2 WHERE ip2.id_propiedad = p.id_propiedad) " +
+            "WHERE p.estado = 'disponible'";
+        java.util.List<String> condicionesPropiedades = new java.util.ArrayList<String>();
+        java.util.List<Object> parametrosPropiedades = new java.util.ArrayList<Object>();
+        if (idCiudadFiltro != null) { condicionesPropiedades.add("p.id_ciudad = ?"); parametrosPropiedades.add(idCiudadFiltro); }
+        if (idTipoFiltro != null) { condicionesPropiedades.add("p.id_tipo = ?"); parametrosPropiedades.add(idTipoFiltro); }
+        if ("venta".equals(filtroOperacion) || "alquiler".equals(filtroOperacion)) { condicionesPropiedades.add("p.operacion = ?"); parametrosPropiedades.add(filtroOperacion); }
+        if (precioMinFiltro != null) { condicionesPropiedades.add("p.precio >= ?"); parametrosPropiedades.add(precioMinFiltro); }
+        if (precioMaxFiltro != null) { condicionesPropiedades.add("p.precio <= ?"); parametrosPropiedades.add(precioMaxFiltro); }
+        if (idCaracteristicaFiltro != null) {
+            condicionesPropiedades.add("EXISTS (SELECT 1 FROM propiedad_caracteristica pcf WHERE pcf.id_propiedad = p.id_propiedad AND pcf.id_caracteristica = ?)");
+            parametrosPropiedades.add(idCaracteristicaFiltro);
+        }
+        if (!condicionesPropiedades.isEmpty()) sqlPropiedades += " AND " + String.join(" AND ", condicionesPropiedades);
+        sqlPropiedades += " ORDER BY p.fecha_publicacion DESC";
+        PreparedStatement psPropiedades = conexionPropiedades.prepareStatement(sqlPropiedades);
+        for (int indiceParametro = 0; indiceParametro < parametrosPropiedades.size(); indiceParametro++) {
+            psPropiedades.setObject(indiceParametro + 1, parametrosPropiedades.get(indiceParametro));
+        }
+        ResultSet rsPropiedades = psPropiedades.executeQuery();
+        boolean hayPropiedades = false;
+        while (rsPropiedades.next()) {
+            hayPropiedades = true;
+            int idPropiedad = rsPropiedades.getInt("id_propiedad");
+            String urlImagen = rsPropiedades.getString("url_imagen");
+            if (urlImagen == null || urlImagen.trim().isEmpty()) {
+                urlImagen = "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=700";
+            }
+%>
+        <div class="col-md-6 col-lg-4">
+            <article class="tarjeta-propiedad h-100">
+                <img src="<%= urlImagen %>" alt="<%= rsPropiedades.getString("titulo") %>" class="w-100">
+                <div class="tarjeta-body">
+                    <span class="etiqueta"><%= rsPropiedades.getString("nombre_tipo") %></span>
+                    <h2 class="h5 mt-2"><%= rsPropiedades.getString("titulo") %></h2>
+                    <p class="ciudad mb-2"><%= rsPropiedades.getString("nombre_ciudad") %> · <%= rsPropiedades.getString("operacion") %></p>
+                    <p class="caracteristicas"><%= rsPropiedades.getInt("habitaciones") %> habitaciones · <%= rsPropiedades.getInt("banos") %> baños · <%= rsPropiedades.getDouble("area_m2") %> m²</p>
+                    <p class="precio">$<%= String.format("%,.0f", rsPropiedades.getDouble("precio")) %> COP</p>
+                    <a href="<%= request.getContextPath() %>/detalle-propiedad.jsp?id=<%= idPropiedad %>" class="btn-detalles">Ver detalles</a>
+                </div>
+            </article>
+        </div>
+<%
+        }
+        if (!hayPropiedades) {
+%>
+        <div class="col-12"><div class="alert alert-secondary">No hay propiedades disponibles en este momento.</div></div>
+<%
+        }
+        rsPropiedades.close();
+        psPropiedades.close();
+    } catch (Exception exPropiedades) {
+%>
+        <div class="col-12"><div class="alert alert-danger">No se pudieron cargar las propiedades. Intenta nuevamente más tarde.</div></div>
+<%
+    } finally {
+        if (conexionPropiedades != null) {
+            try { conexionPropiedades.close(); } catch (Exception ignorado) { }
+        }
+    }
+%>
+    </div>
+</div>
+
+<%@ include file="/WEB-INF/jspf/pie.jspf" %>

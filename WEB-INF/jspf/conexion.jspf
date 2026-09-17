@@ -3,9 +3,9 @@
 <%@ page import="java.sql.SQLException" %>
 <%!
     // Centraliza la conexion JDBC a la base de datos dream_house (MySQL de XAMPP)
-    private static final String URL_BD = "jdbc:mysql://localhost:3306/dream_house?useSSL=false&serverTimezone=America/Bogota&characterEncoding=UTF-8";
+    private static final String URL_BD = "jdbc:mysql://localhost:3307/dream_house?useSSL=false&serverTimezone=America/Bogota&characterEncoding=UTF-8&allowPublicKeyRetrieval=true";
     private static final String USUARIO_BD = "root";
-    private static final String CLAVE_BD = "1234"; 
+    private static final String CLAVE_BD = "";
 
     public Connection obtenerConexion() throws SQLException {
         try {
