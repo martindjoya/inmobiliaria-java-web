@@ -25,8 +25,8 @@ Completar el Sprint 3 por incrementos pequeños, verificables y separados en com
 | Orden | Característica | Prioridad | Estado | Commit sugerido |
 |---|---|---|---|---|
 | 0 | Registro de ejecución del sprint | P0 | Completada | `docs: iniciar ejecucion sprint 3` |
-| 1 | Filtro de servlet y acceso denegado | P0 | En validación | `feat: proteger rutas privadas con filtro` |
-| 2 | Validaciones de propiedad y baja lógica | P0 | En validación | `feat: validar gestion de propiedades` |
+| 1 | Filtro de servlet y acceso denegado | P0 | Validada por el usuario | `feat: proteger rutas privadas con filtro` |
+| 2 | Validaciones de propiedad y baja lógica | P0 | Validada por el usuario | `feat: validar gestion de propiedades` |
 | 3 | Validaciones de citas | P0 | Pendiente | `feat: validar agenda de citas` |
 | 4 | Validaciones de solicitudes | P0 | Pendiente | `feat: validar solicitudes de clientes` |
 | 5 | Documentos con control de pertenencia | P1 | Pendiente | `feat: controlar documentos de solicitudes` |
@@ -82,5 +82,5 @@ Será el siguiente incremento funcional. Se revisará primero el descriptor de d
 | Característica | Prueba | Resultado | Commit confirmado |
 |---|---|---|---|
 | 0. Inicio de ejecución | Bitácora validada | Completada | `96244c1` |
-| 1. Filtro de servlet | `javac --release 8` y validación de `web.xml` | Completada técnicamente | Pendiente de commit |
-| 2. Validaciones de propiedades | Validación estática de alta y edición; Tomcat respondió `404` en las rutas de prueba | Completada técnicamente, pendiente de prueba HTTP | Pendiente de commit |
+| 1. Filtro de servlet | Rutas privadas sin sesión y acceso por rol probado manualmente | Validada por el usuario | `0f1496b` |
+| 2. Validaciones de propiedades | Valores negativos e inválidos rechazados; flujo probado manualmente | Validada por el usuario | `7da8f5d` |
