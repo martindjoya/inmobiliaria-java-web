@@ -11,7 +11,7 @@
         <p class="subtitulo-registro mb-4">Panel de administración de Dream House S.A.</p>
         <p>Rol: <strong><%= session.getAttribute("rolUsuario") %></strong></p>
         <a href="<%= request.getContextPath() %>/index.jsp" class="btn-explorar me-2">Ir al inicio</a>
-        <a href="<%= request.getContextPath() %>/logout.jsp" class="btn-explorar">Cerrar sesión</a>
+        <a href="<%= request.getContextPath() %>/logout.jsp" class="btn-explorar">Cerrar sesion</a>
     </div>
 </section>
 
