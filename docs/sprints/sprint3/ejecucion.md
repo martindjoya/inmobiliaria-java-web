@@ -29,7 +29,7 @@ Completar el Sprint 3 por incrementos pequeños, verificables y separados en com
 | 2 | Validaciones de propiedad y baja lógica | P0 | Validada por el usuario | `feat: validar gestion de propiedades` |
 | 3 | Validaciones de citas | P0 | Validada por el usuario | `feat: validar agenda de citas` |
 | 4 | Validaciones de solicitudes | P0 | Validada por el usuario | `feat: validar solicitudes de clientes` |
-| 5 | Documentos con control de pertenencia | P1 | Pendiente | `feat: controlar documentos de solicitudes` |
+| 5 | Documentos con control de pertenencia | P1 | Validada por el usuario | `feat: controlar documentos de solicitudes` |
 | 6 | Auditoría de operaciones relevantes | P1 | Pendiente | `feat: registrar auditoria` |
 | 7 | Reportes y consultas SQL obligatorias | P1 | Pendiente | `feat: agregar reportes administrativos` |
 | 8 | Modelo, DDL/DML y restricciones faltantes | P1 | Pendiente | `docs: completar modelo y scripts de datos` |
@@ -86,3 +86,4 @@ Será el siguiente incremento funcional. Se revisará primero el descriptor de d
 | 2. Validaciones de propiedades | Valores negativos e inválidos rechazados; flujo probado manualmente | Validada por el usuario | `7da8f5d` |
 | 3. Validaciones de citas | `id_propiedad` válido muestra formulario; inválido o no disponible muestra error | Validada por el usuario | Pendiente de commit |
 | 4. Validaciones de solicitudes | Propiedad inválida, tipo inválido y solicitudes activas duplicadas rechazados | Validada por el usuario | Pendiente de commit |
+| 5. Carga real de documentos | Archivo multipart válido guardado y registrado; extensión, tamaño y duplicados rechazados | Validada por el usuario | Pendiente de commit |

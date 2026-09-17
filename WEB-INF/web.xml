@@ -5,6 +5,15 @@
          version="3.1">
     <display-name>Dream House S.A.</display-name>
 
+    <servlet>
+        <servlet-name>SubirDocumentoServlet</servlet-name>
+        <servlet-class>documentos.SubirDocumentoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubirDocumentoServlet</servlet-name>
+        <url-pattern>/cliente/subir-documento</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>ControlAccesoFilter</filter-name>
         <filter-class>seguridad.ControlAccesoFilter</filter-class>

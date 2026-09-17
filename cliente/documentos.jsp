@@ -8,6 +8,13 @@
 <%
     int idUsuarioDoc = (Integer) session.getAttribute("idUsuario");
     String mensajeErrorDoc = null;
+    String errorCargaDoc = request.getParameter("error");
+    if ("vacio".equals(errorCargaDoc)) mensajeErrorDoc = "Selecciona un archivo antes de enviarlo.";
+    if ("tamano".equals(errorCargaDoc)) mensajeErrorDoc = "El archivo no puede superar 5 MB.";
+    if ("extension".equals(errorCargaDoc)) mensajeErrorDoc = "Solo se permiten archivos PDF, JPG, JPEG o PNG.";
+    if ("duplicado".equals(errorCargaDoc)) mensajeErrorDoc = "Ya existe un documento con ese nombre en esta solicitud.";
+    if ("solicitud".equals(errorCargaDoc)) mensajeErrorDoc = "La solicitud no existe o no pertenece al usuario actual.";
+    if ("general".equals(errorCargaDoc)) mensajeErrorDoc = "No se pudo guardar el archivo.";
     Integer idSolicitudDoc = null;
     try {
         idSolicitudDoc = Integer.parseInt(request.getParameter("id_solicitud"));
@@ -43,31 +50,6 @@
         return;
     }
 
-    if ("agregar".equals(request.getParameter("accion")) && "POST".equalsIgnoreCase(request.getMethod())) {
-        String nombreArchivoDoc = request.getParameter("nombre_archivo");
-        if (nombreArchivoDoc == null || nombreArchivoDoc.trim().isEmpty()) {
-            mensajeErrorDoc = "Debes indicar el nombre del archivo.";
-        } else {
-            Connection conAgregarDoc = null;
-            try {
-                conAgregarDoc = obtenerConexion();
-                PreparedStatement psAgregarDoc = conAgregarDoc.prepareStatement(
-                    "INSERT INTO documento_solicitud (id_solicitud, nombre_archivo, ruta_archivo) VALUES (?, ?, ?)");
-                psAgregarDoc.setInt(1, idSolicitudDoc);
-                psAgregarDoc.setString(2, nombreArchivoDoc.trim());
-                // Simulado: como no hay subida real, guardamos una ruta ficticia basada en el nombre
-                psAgregarDoc.setString(3, "documentos/" + idSolicitudDoc + "_" + nombreArchivoDoc.trim());
-                psAgregarDoc.executeUpdate();
-                psAgregarDoc.close();
-                response.sendRedirect(request.getContextPath() + "/cliente/documentos.jsp?id_solicitud=" + idSolicitudDoc);
-                return;
-            } catch (Exception exAgregarDoc) {
-                mensajeErrorDoc = "Ocurrió un problema al registrar el documento.";
-            } finally {
-                if (conAgregarDoc != null) { try { conAgregarDoc.close(); } catch (Exception ig) {} }
-            }
-        }
-    }
 %>
 <%@ include file="/WEB-INF/jspf/cabecera.jspf" %>
 
@@ -80,17 +62,15 @@
 <%
     }
 %>
-    <div class="alert alert-secondary">
-        Por ahora esto es una simulación: escribe el nombre del archivo como si lo hubieras subido (aún no hay carga real de archivos).
-    </div>
+    <div class="alert alert-secondary">Formatos permitidos: PDF, JPG, JPEG y PNG. Tamaño máximo: 5 MB.</div>
 
-    <form method="post" action="<%= request.getContextPath() %>/cliente/documentos.jsp?id_solicitud=<%= idSolicitudDoc %>" class="card-registro mb-5">
-        <input type="hidden" name="accion" value="agregar">
+    <form method="post" enctype="multipart/form-data" action="<%= request.getContextPath() %>/cliente/subir-documento" class="card-registro mb-5">
+        <input type="hidden" name="id_solicitud" value="<%= idSolicitudDoc %>">
         <div class="mb-3">
-            <label class="form-label">Nombre del archivo</label>
-            <input type="text" name="nombre_archivo" class="form-control" placeholder="ej. cedula.pdf" required>
+            <label class="form-label">Archivo</label>
+            <input type="file" name="archivo" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
         </div>
-        <button type="submit" class="btn-explorar w-100">Registrar documento</button>
+        <button type="submit" class="btn-explorar w-100">Subir documento</button>
     </form>
 
     <h3 class="titulo-seccion mb-3">Documentos registrados</h3>
