@@ -1,0 +1,28 @@
+    <footer class="footer-dh py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="marca">Dream House S.A.</h5>
+                    <p>Encontrando el hogar perfecto para cada familia.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6>Enlaces</h6>
+                    <ul class="lista-footer">
+                        <li><a href="<%= request.getContextPath() %>/index.jsp">Inicio</a></li>
+                        <li><a href="<%= request.getContextPath() %>/propiedades.jsp">Propiedades</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6>Contacto</h6>
+                    <p>contacto@dreamhouse.com<br>+57 300 000 0000</p>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">&copy; 2026 Dream House S.A. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<%= request.getContextPath() %>/js/funciones.js"></script>
+</body>
+</html>
