@@ -2,7 +2,9 @@
 <%
     HttpSession sesionActual = request.getSession(false);
     String nombreUsuarioSesion = (sesionActual != null) ? (String) sesionActual.getAttribute("nombreUsuario") : null;
+    String rolUsuarioSesion = (sesionActual != null) ? (String) sesionActual.getAttribute("rolUsuario") : null;
     String contextoApp = request.getContextPath();
+    String enlacePanel = nombreUsuarioSesion == null ? "/login.jsp" : ("Cliente".equalsIgnoreCase(rolUsuarioSesion) ? "/cliente/panel.jsp" : ("Inmobiliaria".equalsIgnoreCase(rolUsuarioSesion) ? "/inmobiliaria/inicio.jsp" : "/admin/inicio.jsp"));
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,7 +27,7 @@
         <div class="collapse navbar-collapse" id="navDH">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
                 <li class="nav-item"><a class="nav-link" href="<%= contextoApp %>/index.jsp">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="<%= contextoApp %>/propiedades.jsp">Propiedades</a></li>
+                <li class="nav-item"><a class="nav-link" href="<%= contextoApp %><%= enlacePanel %>">Panel</a></li>
                 <% if (nombreUsuarioSesion == null) { %>
                     <li class="nav-item"><a class="nav-link" href="<%= contextoApp %>/registro.jsp">Registrarse</a></li>
                     <li class="nav-item"><a class="btn-login" href="<%= contextoApp %>/login.jsp">Iniciar sesión</a></li>

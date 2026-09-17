@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="menuPrincipal">
             <ul class="navbar-nav align-items-lg-center gap-lg-2">
                 <li class="nav-item"><a class="nav-link" href="index.jsp">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.jsp">Propiedades</a></li>
+                <li class="nav-item"><a class="nav-link" href="<%= idUsuario == null ? "login.jsp" : ("Cliente".equalsIgnoreCase(rolUsuario) ? "cliente/panel.jsp" : ("Inmobiliaria".equalsIgnoreCase(rolUsuario) ? "inmobiliaria/inicio.jsp" : "admin/inicio.jsp")) %>">Panel</a></li>
                 <li class="nav-item"><a class="nav-link" href="nosotros.jsp">Nosotros</a></li>
                 <li class="nav-item"><a class="nav-link" href="contacto.jsp">Contacto</a></li>
                 <% if (idUsuario == null) { %>
@@ -60,7 +60,6 @@
         <div class="container text-center text-white">
             <h1 class="hero-titulo">Encuentra un lugar que se sienta como hogar</h1>
             <p class="hero-subtitulo">Dream House S.A. — inmobiliaria boutique con propiedades seleccionadas para ti</p>
-            <a href="#propiedades" class="btn-explorar">Explorar propiedades</a>
         </div>
     </section>
 
@@ -238,7 +237,7 @@
                     <h5>Enlaces</h5>
                     <ul class="lista-footer">
                         <li><a href="index.jsp">Inicio</a></li>
-                        <li><a href="index.jsp">Propiedades</a></li>
+                        <li><a href="<%= idUsuario == null ? "login.jsp" : ("Cliente".equalsIgnoreCase(rolUsuario) ? "cliente/panel.jsp" : ("Inmobiliaria".equalsIgnoreCase(rolUsuario) ? "inmobiliaria/inicio.jsp" : "admin/inicio.jsp")) %>">Panel</a></li>
                         <li><a href="nosotros.jsp">Nosotros</a></li>
                     </ul>
                 </div>
